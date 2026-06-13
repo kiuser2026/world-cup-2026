@@ -1,0 +1,30 @@
+# 环境变量(包含 API key)— 绝不能提交
+.env
+.env.local
+.env.*
+
+# Claude Code 本地配置
+.claude/
+
+# 日志
+*.log
+update.log
+cron.log
+
+# 备份目录
+backups/
+
+# 归档(旧版/调试用 HTML,不要污染主分支)
+archive/
+
+# Node
+node_modules/
+package-lock.json
+
+# macOS
+.DS_Store
+
+# 编辑器
+.vscode/
+.idea/
+*.swp

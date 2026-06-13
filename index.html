@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⚽ 2026 世界杯比分预测</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <h1>⚽ 2026 世界杯比分预测</h1>
+      <p class="subtitle">美加墨 🇺🇸🇨🇦🇲🇽 · 48 队 · AI 预测 + 用户竞猜</p>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="schedule">📋 赛程</button>
+    <button class="tab" data-tab="predict">🔮 预测</button>
+    <button class="tab" data-tab="leaderboard">📊 排行榜</button>
+    <button class="tab" data-tab="analysis">📈 分析</button>
+  </nav>
+
+  <main id="app">
+    <!-- 赛程页 -->
+    <section id="page-schedule" class="page active"></section>
+
+    <!-- 预测页 -->
+    <section id="page-predict" class="page"></section>
+
+    <!-- 排行榜页 -->
+    <section id="page-leaderboard" class="page"></section>
+
+    <!-- 分析页 -->
+    <section id="page-analysis" class="page"></section>
+  </main>
+
+  <footer>
+    <p>2026 FIFA World Cup · 数据仅供参考 · 本地存储，刷新不丢失</p>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/teamProfiles.js"></script>
+  <script src="js/h2h.js"></script>
+  <script src="js/venues.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/predictor.js"></script>
+  <script src="js/user.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

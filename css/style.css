@@ -1,0 +1,627 @@
+/* ============================================================
+   2026 世界杯比分预测 — 样式
+   ============================================================ */
+
+:root {
+  --bg:        #0a1628;
+  --card:      #111d33;
+  --card-alt:  #162440;
+  --accent:    #00e676;
+  --accent2:   #00bfa5;
+  --text:      #e8eaed;
+  --text-dim:  #8899aa;
+  --border:    #1e3050;
+  --win:       #00e676;
+  --draw:      #ffd740;
+  --loss:      #ff5252;
+  --gold:      #ffd700;
+  --silver:    #c0c0c0;
+  --bronze:    #cd7f32;
+  --radius:    10px;
+  --shadow:    0 4px 20px rgba(0,0,0,0.3);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ── Header ──────────────────────────────────────────── */
+header {
+  background: linear-gradient(135deg, #0d2137 0%, #1a3a5c 100%);
+  padding: 28px 20px 20px;
+  text-align: center;
+  border-bottom: 2px solid var(--accent);
+}
+header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+header .subtitle {
+  color: var(--text-dim);
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+/* ── Tabs ────────────────────────────────────────────── */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding: 12px 16px;
+  background: var(--card);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--border);
+}
+.tab {
+  padding: 10px 20px;
+  border: none;
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+.tab:hover { background: var(--card-alt); color: var(--text); }
+.tab.active {
+  background: var(--accent);
+  color: #000;
+}
+
+/* ── Pages ───────────────────────────────────────────── */
+.page { display: none; padding: 16px; max-width: 960px; margin: 0 auto; }
+.page.active { display: block; }
+
+/* ── Filter bar ──────────────────────────────────────── */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+  align-items: center;
+}
+.filter-bar select, .filter-bar button {
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text);
+  font-size: 14px;
+  cursor: pointer;
+}
+.filter-bar select:focus, .filter-bar button:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.filter-bar button:hover { background: var(--card-alt); }
+.filter-bar button.active-filter {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+}
+
+/* ── Match card ──────────────────────────────────────── */
+.date-header {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 20px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.date-header:first-child { margin-top: 0; }
+
+.match-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.match-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+.match-card .meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+.match-card .meta .venue { opacity: 0.7; }
+.match-card .meta .stage-badge {
+  background: var(--accent);
+  color: #000;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 11px;
+}
+.match-card .teams {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.match-card .team {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 15px;
+}
+.match-card .team.away { justify-content: flex-end; text-align: right; }
+.match-card .team .flag { font-size: 24px; }
+.match-card .team .rank {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-weight: 400;
+}
+.match-card .score-box {
+  font-size: 26px;
+  font-weight: 800;
+  min-width: 80px;
+  text-align: center;
+  color: var(--accent);
+  letter-spacing: 4px;
+}
+.match-card .score-box.upcoming { color: var(--text-dim); font-size: 14px; font-weight: 400; }
+.match-card .score-box.live { color: var(--loss); animation: pulse 1s infinite; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.match-card .predictions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.match-card .predictions .ai-pred {
+  background: rgba(0,230,118,0.1);
+  border: 1px solid rgba(0,230,118,0.3);
+  padding: 3px 10px;
+  border-radius: 6px;
+  color: var(--accent);
+}
+.match-card .predictions .user-pred {
+  background: rgba(255,215,64,0.1);
+  border: 1px solid rgba(255,215,64,0.3);
+  padding: 3px 10px;
+  border-radius: 6px;
+  color: var(--draw);
+}
+.match-card .predictions .result-badge {
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+.result-exact   { background: rgba(0,230,118,0.2); color: var(--win); }
+.result-correct { background: rgba(255,215,64,0.2); color: var(--draw); }
+.result-wrong   { background: rgba(255,82,82,0.15); color: var(--loss); }
+
+/* ── Predict page ────────────────────────────────────── */
+.predict-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.predict-card .predict-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.predict-card .predict-teams {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.predict-card .predict-team {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+.predict-card .predict-team .flag { font-size: 32px; display: block; margin-bottom: 4px; }
+.predict-card .predict-inputs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.predict-card .predict-inputs input {
+  width: 56px;
+  height: 48px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: var(--card-alt);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.predict-card .predict-inputs input:focus {
+  border-color: var(--accent);
+}
+.predict-card .predict-inputs .vs {
+  font-size: 16px;
+  color: var(--text-dim);
+  font-weight: 700;
+}
+.predict-card .predict-ai {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--text-dim);
+  text-align: center;
+}
+.predict-card .predict-ai .ai-score {
+  color: var(--accent);
+  font-weight: 600;
+}
+.predict-card .saved-badge {
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ━━━━ 实力对比表 ━━━━ */
+.predict-comparison {
+  margin-top: 12px;
+  background: var(--card-alt);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.predict-comparison .comparison-header {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+.predict-comparison .comparison-header b {
+  color: var(--accent);
+}
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.comparison-table thead th {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-align: center;
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--border);
+}
+.comparison-table thead .col-home,
+.comparison-table thead .col-away {
+  color: var(--text);
+}
+.comparison-table tbody td {
+  padding: 6px 6px;
+  text-align: center;
+  border-bottom: 1px dashed var(--border);
+}
+.comparison-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.comparison-table .col-label {
+  text-align: left;
+  color: var(--text-dim);
+  white-space: nowrap;
+  font-size: 11px;
+}
+.comparison-table .col-vs {
+  color: var(--text-dim);
+  width: 28px;
+}
+.comparison-table .col-home,
+.comparison-table .col-away {
+  font-weight: 500;
+}
+.comparison-table .cell-win {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ━━━━ 多场景比分 ━━━━ */
+.predict-scenarios {
+  margin-top: 12px;
+}
+.predict-scenarios .scenarios-title {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+.scenario-item {
+  background: var(--card-alt);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  transition: all 0.15s ease;
+}
+.scenario-item.clickable {
+  cursor: pointer;
+}
+.scenario-item.clickable:hover {
+  border-color: var(--accent);
+  background: rgba(0, 230, 118, 0.05);
+  transform: translateX(2px);
+}
+.scenario-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+.scenario-head .scenario-label {
+  font-weight: 600;
+  color: var(--text);
+}
+.scenario-head .scenario-score {
+  margin-left: auto;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.scenario-head .scenario-prob {
+  font-size: 11px;
+  color: var(--text-dim);
+  background: var(--card);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.scenario-reason {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+/* ━━━━ AI 关键判断叙述 ━━━━ */
+.predict-narrative {
+  margin-top: 12px;
+  background: linear-gradient(90deg, rgba(255,179,0,0.08), rgba(255,179,0,0.02));
+  border-left: 3px solid #ffb300;
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+.predict-narrative .narrative-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffb300;
+  margin-bottom: 4px;
+}
+.predict-narrative .narrative-item {
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.6;
+  padding: 2px 0;
+}
+
+/* ━━━━ 关键因素 ━━━━ */
+.predict-factors {
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+.predict-factors .factors-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.factor-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+  line-height: 1.5;
+}
+.factor-row .factor-icon {
+  flex-shrink: 0;
+}
+.factor-row .factor-text {
+  flex: 1;
+}
+.factor-row .factor-dir {
+  flex-shrink: 0;
+  color: var(--accent2);
+  font-size: 10px;
+  white-space: nowrap;
+}
+.group-section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 24px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.group-section-title:first-child { margin-top: 0; }
+
+/* ── Leaderboard page ────────────────────────────────── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+}
+.stat-card .stat-value {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--accent);
+}
+.stat-card .stat-label {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+.result-list {
+  margin-top: 16px;
+}
+.result-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+}
+.result-item .ri-teams { flex: 1; font-weight: 600; font-size: 14px; }
+.result-item .ri-scores {
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.result-item .ri-scores .actual { color: var(--text); font-weight: 600; }
+.result-item .ri-points {
+  font-weight: 800;
+  font-size: 16px;
+  min-width: 40px;
+  text-align: center;
+}
+
+/* ── Analysis page ───────────────────────────────────── */
+.chart-container {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.chart-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--accent);
+}
+.bar-chart { display: flex; flex-direction: column; gap: 8px; }
+.bar-row { display: flex; align-items: center; gap: 10px; }
+.bar-label {
+  width: 80px;
+  font-size: 13px;
+  text-align: right;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+.bar-track {
+  flex: 1;
+  height: 24px;
+  background: var(--card-alt);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s ease;
+  min-width: 2px;
+}
+.bar-value {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ── Empty state ─────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--text-dim);
+}
+.empty-state .emoji { font-size: 48px; margin-bottom: 12px; }
+.empty-state p { font-size: 15px; }
+
+/* ── Footer ──────────────────────────────────────────── */
+footer {
+  text-align: center;
+  padding: 24px 16px;
+  font-size: 12px;
+  color: var(--text-dim);
+  border-top: 1px solid var(--border);
+  margin-top: 32px;
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 600px) {
+  header h1 { font-size: 22px; }
+  .tabs { gap: 2px; padding: 8px 8px; }
+  .tab { padding: 8px 12px; font-size: 13px; }
+  .match-card .team { font-size: 13px; }
+  .match-card .team .flag { font-size: 20px; }
+  .match-card .score-box { font-size: 22px; min-width: 60px; }
+  .predict-card .predict-inputs input { width: 48px; height: 40px; font-size: 18px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── Scrollbar ───────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+/* ── Animations ──────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.match-card, .predict-card, .result-item {
+  animation: fadeIn 0.3s ease;
+}
+
+/* ── Analysis detail toggle ──────────────────────────── */
+.analysis-detail {
+  transition: all 0.3s ease;
+}
+.detail-toggle:hover {
+  background: var(--card-alt) !important;
+}
+.analysis-detail table {
+  font-size: 11px;
+}
+.analysis-detail td {
+  padding: 2px 6px;
+}
