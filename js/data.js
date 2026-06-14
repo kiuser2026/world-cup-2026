@@ -1,4 +1,4 @@
-// 最后更新: 2026/6/15 05:58:48
+// 最后更新: 2026/6/15 07:29:07
 // 数据来源: football-data.org (FIFA World Cup)
 // ============================================================
 // 2026 FIFA World Cup — 赛程 & 球队数据 (来自 openfootball)
@@ -123,7 +123,7 @@ const MATCHES = [
   { id:6,  stage:'group', group:'A', matchday:3, date:'2026-06-24', time:'19:00', venue:'Monterrey (Guadalupe)', home:'RSA', away:'KOR', homeScore:null, awayScore:null },
 
   // ── B 组 ──
-  { id:7,  stage:'group', group:'B', matchday:1, date:'2026-06-12', time:'15:00', venue:'Toronto', home:'CAN', away:'BIH', homeScore:null, awayScore:null },
+  { id:7,  stage:'group', group:'B', matchday:1, date:'2026-06-12', time:'15:00', venue:'Toronto', home:'CAN', away:'BIH', homeScore:1, awayScore:1 },
   { id:8,  stage:'group', group:'B', matchday:1, date:'2026-06-13', time:'12:00', venue:'San Francisco Bay Area (Santa Clara)', home:'QAT', away:'SUI', homeScore:1, awayScore:1 },
   { id:9,  stage:'group', group:'B', matchday:2, date:'2026-06-18', time:'12:00', venue:'Los Angeles (Inglewood)', home:'SUI', away:'BIH', homeScore:null, awayScore:null },
   { id:10, stage:'group', group:'B', matchday:2, date:'2026-06-18', time:'15:00', venue:'Vancouver', home:'CAN', away:'QAT', homeScore:null, awayScore:null },
@@ -155,7 +155,7 @@ const MATCHES = [
   { id:30, stage:'group', group:'E', matchday:3, date:'2026-06-25', time:'16:00', venue:'New York/New Jersey (East Rutherford)', home:'ECU', away:'GER', homeScore:null, awayScore:null },
 
   // ── F 组 ──
-  { id:31, stage:'group', group:'F', matchday:1, date:'2026-06-14', time:'15:00', venue:'Dallas (Arlington)', home:'NED', away:'JPN', homeScore:null, awayScore:null },
+  { id:31, stage:'group', group:'F', matchday:1, date:'2026-06-14', time:'15:00', venue:'Dallas (Arlington)', home:'NED', away:'JPN', homeScore:2, awayScore:2 },
   { id:32, stage:'group', group:'F', matchday:1, date:'2026-06-14', time:'20:00', venue:'Monterrey (Guadalupe)', home:'SWE', away:'TUN', homeScore:null, awayScore:null },
   { id:33, stage:'group', group:'F', matchday:2, date:'2026-06-20', time:'12:00', venue:'Houston', home:'NED', away:'SWE', homeScore:null, awayScore:null },
   { id:34, stage:'group', group:'F', matchday:2, date:'2026-06-20', time:'22:00', venue:'Monterrey (Guadalupe)', home:'TUN', away:'JPN', homeScore:null, awayScore:null },
