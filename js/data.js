@@ -1,4 +1,4 @@
-// 最后更新: 2026/6/13 17:02:41
+// 最后更新: 2026/6/14 09:36:55
 // 数据来源: football-data.org (FIFA World Cup)
 // ============================================================
 // 2026 FIFA World Cup — 赛程 & 球队数据 (来自 openfootball)
@@ -124,14 +124,14 @@ const MATCHES = [
 
   // ── B 组 ──
   { id:7,  stage:'group', group:'B', matchday:1, date:'2026-06-12', time:'15:00', venue:'Toronto', home:'CAN', away:'BIH', homeScore:1, awayScore:1 },
-  { id:8,  stage:'group', group:'B', matchday:1, date:'2026-06-13', time:'12:00', venue:'San Francisco Bay Area (Santa Clara)', home:'QAT', away:'SUI', homeScore:null, awayScore:null },
+  { id:8,  stage:'group', group:'B', matchday:1, date:'2026-06-13', time:'12:00', venue:'San Francisco Bay Area (Santa Clara)', home:'QAT', away:'SUI', homeScore:1, awayScore:1 },
   { id:9,  stage:'group', group:'B', matchday:2, date:'2026-06-18', time:'12:00', venue:'Los Angeles (Inglewood)', home:'SUI', away:'BIH', homeScore:null, awayScore:null },
   { id:10, stage:'group', group:'B', matchday:2, date:'2026-06-18', time:'15:00', venue:'Vancouver', home:'CAN', away:'QAT', homeScore:null, awayScore:null },
   { id:11, stage:'group', group:'B', matchday:3, date:'2026-06-24', time:'12:00', venue:'Vancouver', home:'SUI', away:'CAN', homeScore:null, awayScore:null },
   { id:12, stage:'group', group:'B', matchday:3, date:'2026-06-24', time:'12:00', venue:'Seattle', home:'BIH', away:'QAT', homeScore:null, awayScore:null },
 
   // ── C 组 ──
-  { id:13, stage:'group', group:'C', matchday:1, date:'2026-06-13', time:'18:00', venue:'New York/New Jersey (East Rutherford)', home:'BRA', away:'MAR', homeScore:null, awayScore:null },
+  { id:13, stage:'group', group:'C', matchday:1, date:'2026-06-13', time:'18:00', venue:'New York/New Jersey (East Rutherford)', home:'BRA', away:'MAR', homeScore:1, awayScore:1 },
   { id:14, stage:'group', group:'C', matchday:1, date:'2026-06-13', time:'21:00', venue:'Boston (Foxborough)', home:'HAI', away:'SCO', homeScore:null, awayScore:null },
   { id:15, stage:'group', group:'C', matchday:2, date:'2026-06-19', time:'18:00', venue:'Boston (Foxborough)', home:'SCO', away:'MAR', homeScore:null, awayScore:null },
   { id:16, stage:'group', group:'C', matchday:2, date:'2026-06-19', time:'20:30', venue:'Philadelphia', home:'BRA', away:'HAI', homeScore:null, awayScore:null },
