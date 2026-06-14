@@ -1,4 +1,4 @@
-// 最后更新: 2026/6/14 23:36:45
+// 最后更新: 2026/6/15 05:03:33
 // 数据来源: football-data.org (FIFA World Cup)
 // ============================================================
 // 2026 FIFA World Cup — 赛程 & 球队数据 (来自 openfootball)
@@ -147,7 +147,7 @@ const MATCHES = [
   { id:24, stage:'group', group:'D', matchday:3, date:'2026-06-25', time:'19:00', venue:'San Francisco Bay Area (Santa Clara)', home:'PAR', away:'AUS', homeScore:null, awayScore:null },
 
   // ── E 组 ──
-  { id:25, stage:'group', group:'E', matchday:1, date:'2026-06-14', time:'12:00', venue:'Houston', home:'GER', away:'CUW', homeScore:null, awayScore:null },
+  { id:25, stage:'group', group:'E', matchday:1, date:'2026-06-14', time:'12:00', venue:'Houston', home:'GER', away:'CUW', homeScore:7, awayScore:1 },
   { id:26, stage:'group', group:'E', matchday:1, date:'2026-06-14', time:'19:00', venue:'Philadelphia', home:'CIV', away:'ECU', homeScore:null, awayScore:null },
   { id:27, stage:'group', group:'E', matchday:2, date:'2026-06-20', time:'16:00', venue:'Toronto', home:'GER', away:'CIV', homeScore:null, awayScore:null },
   { id:28, stage:'group', group:'E', matchday:2, date:'2026-06-20', time:'19:00', venue:'Kansas City', home:'ECU', away:'CUW', homeScore:null, awayScore:null },
