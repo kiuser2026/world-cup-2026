@@ -1,4 +1,4 @@
-// 最后更新: 2026/6/14 09:36:55
+// 最后更新: 2026/6/14 16:58:54
 // 数据来源: football-data.org (FIFA World Cup)
 // ============================================================
 // 2026 FIFA World Cup — 赛程 & 球队数据 (来自 openfootball)
@@ -132,7 +132,7 @@ const MATCHES = [
 
   // ── C 组 ──
   { id:13, stage:'group', group:'C', matchday:1, date:'2026-06-13', time:'18:00', venue:'New York/New Jersey (East Rutherford)', home:'BRA', away:'MAR', homeScore:1, awayScore:1 },
-  { id:14, stage:'group', group:'C', matchday:1, date:'2026-06-13', time:'21:00', venue:'Boston (Foxborough)', home:'HAI', away:'SCO', homeScore:null, awayScore:null },
+  { id:14, stage:'group', group:'C', matchday:1, date:'2026-06-14', time:'21:00', venue:'Boston (Foxborough)', home:'HAI', away:'SCO', homeScore:0, awayScore:1 },
   { id:15, stage:'group', group:'C', matchday:2, date:'2026-06-19', time:'18:00', venue:'Boston (Foxborough)', home:'SCO', away:'MAR', homeScore:null, awayScore:null },
   { id:16, stage:'group', group:'C', matchday:2, date:'2026-06-19', time:'20:30', venue:'Philadelphia', home:'BRA', away:'HAI', homeScore:null, awayScore:null },
   { id:17, stage:'group', group:'C', matchday:3, date:'2026-06-24', time:'18:00', venue:'Miami (Miami Gardens)', home:'SCO', away:'BRA', homeScore:null, awayScore:null },
@@ -140,7 +140,7 @@ const MATCHES = [
 
   // ── D 组 ──
   { id:19, stage:'group', group:'D', matchday:1, date:'2026-06-13', time:'18:00', venue:'Los Angeles (Inglewood)', home:'USA', away:'PAR', homeScore:4, awayScore:1 },
-  { id:20, stage:'group', group:'D', matchday:1, date:'2026-06-13', time:'21:00', venue:'Vancouver', home:'AUS', away:'TUR', homeScore:null, awayScore:null },
+  { id:20, stage:'group', group:'D', matchday:1, date:'2026-06-14', time:'21:00', venue:'Vancouver', home:'AUS', away:'TUR', homeScore:2, awayScore:0 },
   { id:21, stage:'group', group:'D', matchday:2, date:'2026-06-19', time:'12:00', venue:'Seattle', home:'USA', away:'AUS', homeScore:null, awayScore:null },
   { id:22, stage:'group', group:'D', matchday:2, date:'2026-06-19', time:'20:00', venue:'San Francisco Bay Area (Santa Clara)', home:'TUR', away:'PAR', homeScore:null, awayScore:null },
   { id:23, stage:'group', group:'D', matchday:3, date:'2026-06-25', time:'19:00', venue:'Los Angeles (Inglewood)', home:'TUR', away:'USA', homeScore:null, awayScore:null },
