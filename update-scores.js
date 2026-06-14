@@ -19,6 +19,8 @@ const path = require('path');
 const https = require('https');
 
 const APPLY = process.argv.includes('--apply');
+const PUSH  = process.argv.includes('--push'); // --push: 写入后自动 git commit + push
+const QUIET = process.argv.includes('--quiet'); // --quiet: 无变化时不输出到日志(用于高频轮询)
 const DATA_FILE = path.join(__dirname, 'js', 'data.js');
 const BACKUP_DIR = path.join(__dirname, 'backups');
 const LOG_FILE = path.join(__dirname, 'update.log');
@@ -26,8 +28,21 @@ const LOG_FILE = path.join(__dirname, 'update.log');
 function log(message) {
     const timestamp = new Date().toLocaleString('zh-CN');
     const logMessage = `[${timestamp}] ${message}`;
-    console.log(logMessage);
-    fs.appendFileSync(LOG_FILE, logMessage + '\n');
+    pendingLog.push(logMessage);
+    if (!QUIET) {
+        console.log(logMessage);
+        fs.appendFileSync(LOG_FILE, logMessage + '\n');
+    }
+}
+
+// QUIET 模式下,所有日志先缓冲,只在确认有变化时才一次性 flush
+const pendingLog = [];
+function flushPendingLog() {
+    if (!QUIET || pendingLog.length === 0) return;
+    for (const line of pendingLog) {
+        console.log(line);
+        fs.appendFileSync(LOG_FILE, line + '\n');
+    }
 }
 
 // ---------- 球队名 → 内部代码 ----------
@@ -220,8 +235,12 @@ async function main() {
 
     if (updates.length === 0) {
         log('ℹ️ 无变化');
+        // QUIET 模式下不 flush,保持日志干净
         return;
     }
+
+    // 有更新 — 一次性 flush 所有缓冲日志
+    flushPendingLog();
 
     log('--- 将要更新的比赛 ---');
     for (const u of updates) {
@@ -247,9 +266,77 @@ async function main() {
     fs.writeFileSync(DATA_FILE, newContent, 'utf-8');
     log(`✅ 已写入: ${DATA_FILE}`);
     log(`🏁 完成 — 共更新 ${updates.length} 场`);
+
+    // --push: 自动提交并推送到 GitHub Pages
+    if (PUSH) {
+        await gitCommitAndPush(updates.length);
+    }
+}
+
+// ---------- git commit & push (Node 版,避免 macOS TCC 对 shell 的拦截) ----------
+async function gitCommitAndPush(updatedCount) {
+    const { execFileSync } = require('child_process');
+    const env = loadEnv();
+    const token = env.GH_TOKEN;
+    const repo  = env.GH_REPO;
+    const user  = env.GH_USER;
+
+    if (!token || !repo || !user) {
+        log('⚠️  .env 缺少 GH_TOKEN / GH_REPO / GH_USER,跳过 git push');
+        return;
+    }
+
+    const run = (args, opts = {}) => execFileSync('/usr/bin/git', args, {
+        cwd: __dirname,
+        encoding: 'utf-8',
+        ...opts,
+    }).trim();
+
+    try {
+        // 检查是否真的有改动
+        const status = run(['status', '--porcelain', 'js/data.js']);
+        if (!status) {
+            log('ℹ️  data.js 与 git 索引一致,无需 commit');
+            return;
+        }
+
+        run(['add', 'js/data.js']);
+        const ts = new Date().toLocaleString('zh-CN');
+        run(['commit', '-m', `data: 自动同步比分 ${ts} (+${updatedCount} 场)`]);
+        log(`✅ git commit 完成`);
+
+        // 推送 — 关闭 credential helper 防止 macOS Keychain 干扰
+        run([
+            '-c', 'credential.helper=',
+            'push',
+            `https://${user}:${token}@github.com/${repo}.git`,
+            'main',
+        ], { stdio: ['ignore', 'pipe', 'pipe'] });
+        log(`🌐 已推送到 https://${user}.github.io/${repo.split('/')[1]}/`);
+    } catch (err) {
+        log(`❌ git push 失败: ${err.message}`);
+        if (err.stderr) log(`    stderr: ${err.stderr.toString().trim()}`);
+    }
+}
+
+function loadEnv() {
+    const out = {};
+    try {
+        const content = fs.readFileSync(path.join(__dirname, '.env'), 'utf-8');
+        for (const line of content.split('\n')) {
+            const m = line.match(/^\s*([A-Z_][A-Z0-9_]*)\s*=\s*(.+?)\s*$/);
+            if (m) out[m[1]] = m[2].replace(/^["']|["']$/g, '');
+        }
+    } catch (_) {}
+    // 环境变量优先
+    for (const key of ['GH_TOKEN', 'GH_REPO', 'GH_USER', 'FOOTBALL_API_KEY']) {
+        if (process.env[key]) out[key] = process.env[key];
+    }
+    return out;
 }
 
 main().catch(err => {
+    flushPendingLog();
     log(`❌ 异常: ${err.message}`);
     log(err.stack);
     process.exit(1);
