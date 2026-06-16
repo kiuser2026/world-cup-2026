@@ -1,4 +1,4 @@
-// 最后更新: 2026/6/16 11:38:29
+// 最后更新: 2026/6/17 07:36:49
 // 数据来源: football-data.org (FIFA World Cup)
 // ============================================================
 // 2026 FIFA World Cup — 赛程 & 球队数据 (来自 openfootball)
@@ -179,7 +179,7 @@ const MATCHES = [
   { id:48, stage:'group', group:'H', matchday:3, date:'2026-06-26', time:'18:00', venue:'Guadalajara (Zapopan)', home:'URU', away:'ESP', homeScore:null, awayScore:null },
 
   // ── I 组 ──
-  { id:49, stage:'group', group:'I', matchday:1, date:'2026-06-16', time:'15:00', venue:'New York/New Jersey (East Rutherford)', home:'FRA', away:'SEN', homeScore:null, awayScore:null },
+  { id:49, stage:'group', group:'I', matchday:1, date:'2026-06-16', time:'15:00', venue:'New York/New Jersey (East Rutherford)', home:'FRA', away:'SEN', homeScore:3, awayScore:1 },
   { id:50, stage:'group', group:'I', matchday:1, date:'2026-06-16', time:'18:00', venue:'Boston (Foxborough)', home:'IRQ', away:'NOR', homeScore:null, awayScore:null },
   { id:51, stage:'group', group:'I', matchday:2, date:'2026-06-22', time:'17:00', venue:'Philadelphia', home:'FRA', away:'IRQ', homeScore:null, awayScore:null },
   { id:52, stage:'group', group:'I', matchday:2, date:'2026-06-22', time:'20:00', venue:'New York/New Jersey (East Rutherford)', home:'NOR', away:'SEN', homeScore:null, awayScore:null },
