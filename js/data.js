@@ -1,4 +1,4 @@
-// 最后更新: 2026/6/17 14:30:48
+// 最后更新: 2026/6/18 03:19:16
 // 数据来源: football-data.org (FIFA World Cup)
 // ============================================================
 // 2026 FIFA World Cup — 赛程 & 球队数据 (来自 openfootball)
@@ -195,7 +195,7 @@ const MATCHES = [
   { id:60, stage:'group', group:'J', matchday:3, date:'2026-06-27', time:'21:00', venue:'Dallas (Arlington)', home:'JOR', away:'ARG', homeScore:null, awayScore:null },
 
   // ── K 组 ──
-  { id:61, stage:'group', group:'K', matchday:1, date:'2026-06-17', time:'12:00', venue:'Houston', home:'POR', away:'COD', homeScore:null, awayScore:null },
+  { id:61, stage:'group', group:'K', matchday:1, date:'2026-06-17', time:'12:00', venue:'Houston', home:'POR', away:'COD', homeScore:1, awayScore:1 },
   { id:62, stage:'group', group:'K', matchday:1, date:'2026-06-17', time:'20:00', venue:'Mexico City', home:'UZB', away:'COL', homeScore:null, awayScore:null },
   { id:63, stage:'group', group:'K', matchday:2, date:'2026-06-23', time:'12:00', venue:'Houston', home:'POR', away:'UZB', homeScore:null, awayScore:null },
   { id:64, stage:'group', group:'K', matchday:2, date:'2026-06-23', time:'20:00', venue:'Guadalajara (Zapopan)', home:'COL', away:'COD', homeScore:null, awayScore:null },
