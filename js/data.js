@@ -1,4 +1,4 @@
-// 最后更新: 2026/6/17 08:36:33
+// 最后更新: 2026/6/17 11:08:00
 // 数据来源: football-data.org (FIFA World Cup)
 // ============================================================
 // 2026 FIFA World Cup — 赛程 & 球队数据 (来自 openfootball)
@@ -187,7 +187,7 @@ const MATCHES = [
   { id:54, stage:'group', group:'I', matchday:3, date:'2026-06-26', time:'15:00', venue:'Toronto', home:'SEN', away:'IRQ', homeScore:null, awayScore:null },
 
   // ── J 组 ──
-  { id:55, stage:'group', group:'J', matchday:1, date:'2026-06-16', time:'20:00', venue:'Kansas City', home:'ARG', away:'ALG', homeScore:null, awayScore:null },
+  { id:55, stage:'group', group:'J', matchday:1, date:'2026-06-17', time:'20:00', venue:'Kansas City', home:'ARG', away:'ALG', homeScore:3, awayScore:0 },
   { id:56, stage:'group', group:'J', matchday:1, date:'2026-06-16', time:'21:00', venue:'San Francisco Bay Area (Santa Clara)', home:'AUT', away:'JOR', homeScore:null, awayScore:null },
   { id:57, stage:'group', group:'J', matchday:2, date:'2026-06-22', time:'12:00', venue:'Dallas (Arlington)', home:'ARG', away:'AUT', homeScore:null, awayScore:null },
   { id:58, stage:'group', group:'J', matchday:2, date:'2026-06-22', time:'20:00', venue:'San Francisco Bay Area (Santa Clara)', home:'JOR', away:'ALG', homeScore:null, awayScore:null },
