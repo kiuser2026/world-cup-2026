@@ -250,63 +250,223 @@ const Predictor = (() => {
   }
 
   // ── 6. 小组形势评分 ──────────────────────────────────
+  // 2026 世界杯: 各组前2名 + 8个成绩最好第3名 = 32强
+  // → 强队拿到4分基本"安全"(第3名也能出线), 收力概率大
+  // → 6分 = 稳出线; 4分且净胜球优 = 大概率出线; 3分 = 仍有希望; ≤1分 = 危险
   function scoreGroupStage(match, homeCode, awayCode) {
     if (match.stage !== 'group') {
-      return { score: 0, detail: '淘汰赛，双方全力以赴' };
+      return { score: 0, detail: '淘汰赛，双方全力以赴', advancement: null };
     }
 
     const standings = calcGroupStandings(match.group, match.id);
-    const hStanding = standings.find(s => s.team === homeCode);
-    const aStanding = standings.find(s => s.team === awayCode);
+    const hIdx = standings.findIndex(s => s.team === homeCode);
+    const aIdx = standings.findIndex(s => s.team === awayCode);
+    const hStanding = standings[hIdx];
+    const aStanding = standings[aIdx];
 
-    if (!hStanding || !aStanding) return { score: 0, detail: '小组数据不足' };
+    if (!hStanding || !aStanding) return { score: 0, detail: '小组数据不足', standings, advancement: null };
+
+    // ── 出线形势分析 ──
+    const adv = analyzeGroupAdvancement(standings, match.matchday);
+    const hAdv = adv[homeCode];
+    const aAdv = adv[awayCode];
 
     let score = 0;
     const notes = [];
 
-    // 已经确保晋级 → 可能轮换保存体力
-    const hQualified = hStanding.pts >= 6; // 大概率晋级
-    const aQualified = aStanding.pts >= 6;
-    const hEliminated = hStanding.pts <= 0 && hStanding.played >= 2; // 大概率出局
-    const aEliminated = aStanding.pts <= 0 && aStanding.played >= 2;
+    // ── 收力逻辑 (核心: 前三都能出线,4分大概率安全) ──
 
-    if (hQualified && !aQualified) {
-      score -= 0.3;
-      notes.push(`${homeCode}已基本确保晋级，可能轮换阵容`);
+    // 6分+ → 稳出线,大概率轮换
+    const hSafe = hStanding.pts >= 6;
+    const aSafe = aStanding.pts >= 6;
+    // 4分且排名前2 → 大概率出线,可能适当收力
+    const hComfortable = hStanding.pts >= 4 && hIdx < 2;
+    const aComfortable = aStanding.pts >= 4 && aIdx < 2;
+    // 4分排第3 → 看净胜球,大概率也能以第3出线
+    const hLikelyThrough3rd = hStanding.pts >= 4 && hIdx === 2 && (hStanding.gf - hStanding.ga) >= 0;
+    const aLikelyThrough3rd = aStanding.pts >= 4 && aIdx === 2 && (aStanding.gf - aStanding.ga) >= 0;
+
+    // 已稳出线 → 轮换收力
+    if (hSafe && !aSafe) {
+      score -= 0.35;
+      notes.push(`${homeCode}已确保出线，大概率轮换保存体力`);
     }
-    if (aQualified && !hQualified) {
-      score += 0.3;
-      notes.push(`${awayCode}已基本确保晋级，可能轮换阵容`);
+    if (aSafe && !hSafe) {
+      score += 0.35;
+      notes.push(`${awayCode}已确保出线，大概率轮换保存体力`);
+    }
+    // 都稳出线 → 都收力,差距缩小
+    if (hSafe && aSafe) {
+      score *= 0.5;
+      notes.push('双方均已出线，可能同时轮换');
     }
 
-    // 必须赢才能晋级
-    const hMustWin = hStanding.pts <= 3 && hStanding.played >= 2;
-    const aMustWin = aStanding.pts <= 3 && aStanding.played >= 2;
+    // 舒适区(4分+排名前2或第3净胜球优) → 适度收力
+    if (!hSafe && (hComfortable || hLikelyThrough3rd) && !aComfortable && !aLikelyThrough3rd && !aSafe) {
+      score -= 0.2;
+      const reason = hComfortable ? '排名前2，基本锁定出线' : '4分+正净胜球，大概率以第3出线';
+      notes.push(`${homeCode}${reason}，可能适度收力`);
+    }
+    if (!aSafe && (aComfortable || aLikelyThrough3rd) && !hComfortable && !hLikelyThrough3rd && !hSafe) {
+      score += 0.2;
+      const reason = aComfortable ? '排名前2，基本锁定出线' : '4分+正净胜球，大概率以第3出线';
+      notes.push(`${awayCode}${reason}，可能适度收力`);
+    }
+
+    // ── 必须赢/拼命逻辑 ──
+    const hMustWin = hAdv && hAdv.mustWin;
+    const aMustWin = aAdv && aAdv.mustWin;
 
     if (hMustWin && !aMustWin) {
-      score += 0.2;
-      notes.push(`${homeCode}需要取胜，战意十足`);
+      score += 0.25;
+      notes.push(`${homeCode}必须取胜才能出线，战意十足`);
     }
     if (aMustWin && !hMustWin) {
-      score -= 0.2;
-      notes.push(`${awayCode}需要取胜，战意十足`);
+      score -= 0.25;
+      notes.push(`${awayCode}必须取胜才能出线，战意十足`);
     }
 
-    // 已经出局 → 斗志下降
-    if (hEliminated) {
-      score -= 0.2;
+    // ── 出局逻辑 ──
+    const hEliminated = hAdv && hAdv.eliminated;
+    const aEliminated = aAdv && aAdv.eliminated;
+
+    if (hEliminated && !aEliminated) {
+      score -= 0.25;
       notes.push(`${homeCode}基本出局，斗志存疑`);
     }
-    if (aEliminated) {
-      score += 0.2;
+    if (aEliminated && !hEliminated) {
+      score += 0.25;
       notes.push(`${awayCode}基本出局，斗志存疑`);
+    }
+
+    // ── 末轮特殊: 净胜球可能成为关键 ──
+    if (match.matchday === 3) {
+      const hGD = hStanding.gf - hStanding.ga;
+      const aGD = aStanding.gf - aStanding.ga;
+      // 同分情况下净胜球很重要 → 不敢松懈
+      if (hStanding.pts === aStanding.pts && Math.abs(hGD - aGD) <= 1) {
+        notes.push('末轮同分且净胜球接近，双方都不敢松懈');
+        // 同分对决的紧迫感抵消收力倾向
+        score *= 0.6;
+      }
+    }
+
+    // ── 首轮无数据时给个提示 ──
+    if (hStanding.played === 0 && aStanding.played === 0) {
+      notes.push('小组首轮，双方全力出击');
     }
 
     return {
       score: Math.max(-1, Math.min(1, score)),
       detail: notes.length ? `小组形势: ${notes.join('; ')}` : '双方形势均衡',
       standings,
+      advancement: adv,
     };
+  }
+
+  // ── 小组出线概率分析 ──────────────────────────────────
+  // 2026 世界杯规则: 各组前2名(24队) + 8个成绩最好第3名 = 32强
+  // 所以第3名也有很大机会出线,4分基本"安全"
+  function analyzeGroupAdvancement(standings, matchday) {
+    const result = {};
+    const total = standings.length; // 4
+
+    standings.forEach((s, idx) => {
+      const pos = idx + 1; // 当前排名 1-4
+      const gd = s.gf - s.ga;
+      const maxPts = s.pts + (total - 1 - s.played) * 3; // 理论最高分
+
+      // ── 出线概率估算 ──
+      let prob = 0; // 0-1
+      let status = 'normal'; // normal / safe / comfortable / mustWin / eliminated
+      let needPts = 0; // 还需要几分
+
+      if (s.played === 0) {
+        // 首轮未打，无法判断
+        prob = 0.5;
+        status = 'normal';
+      } else if (pos <= 2) {
+        // 排名前2
+        if (s.pts >= 6) {
+          prob = 0.98;
+          status = 'safe';
+        } else if (s.pts >= 4) {
+          prob = 0.80;
+          status = 'comfortable';
+        } else if (s.pts >= 3) {
+          prob = 0.50;
+          status = 'normal';
+        } else {
+          prob = 0.25;
+          status = 'normal';
+        }
+      } else if (pos === 3) {
+        // 第3名 — 关键: 8个最好第3出线
+        if (s.pts >= 6) {
+          prob = 0.95; // 6分第3几乎100%出线
+          status = 'safe';
+        } else if (s.pts >= 4) {
+          prob = gd >= 0 ? 0.70 : 0.55; // 4分+正净胜球大概率出线
+          status = 'comfortable';
+        } else if (s.pts >= 3) {
+          prob = 0.30; // 3分第3需要看其他组脸色
+          status = 'normal';
+        } else if (s.pts >= 1) {
+          prob = 0.10;
+          status = 'mustWin';
+        } else {
+          prob = 0.02;
+          status = 'eliminated';
+        }
+      } else {
+        // 第4名
+        if (s.pts >= 4) {
+          prob = 0.20; // 第4但有4分,仍有理论可能
+          status = 'normal';
+        } else if (s.pts >= 1) {
+          prob = 0.05;
+          status = 'mustWin';
+        } else {
+          if (s.played >= 2) {
+            prob = 0;
+            status = 'eliminated';
+          } else {
+            prob = 0.05;
+            status = 'mustWin';
+          }
+        }
+      }
+
+      // ── 必须赢判断 ──
+      const mustWin = (status === 'mustWin') ||
+        (s.played >= 2 && s.pts <= 1 && pos >= 3) ||
+        (matchday === 3 && s.pts <= 2 && pos >= 3);
+
+      // ── 出局判断 ──
+      const eliminated = status === 'eliminated' ||
+        (s.played >= 2 && s.pts <= 0 && pos >= 3) ||
+        (matchday === 3 && s.pts <= 1 && pos === 4);
+
+      // ── 还需要几分 ──
+      if (s.pts >= 6) needPts = 0;
+      else if (s.pts >= 4 && pos <= 2) needPts = 0;
+      else if (s.pts >= 4 && pos === 3 && gd >= 0) needPts = 0;
+      else if (s.pts >= 3 && pos <= 2) needPts = 1; // 1分保前2
+      else needPts = 3; // 需要赢
+
+      result[s.team] = {
+        position: pos,
+        prob: +prob.toFixed(2),
+        status,
+        mustWin,
+        eliminated,
+        needPts,
+        maxPts,
+        canStillAdvance: maxPts >= 4 || (maxPts >= 3 && prob > 0),
+      };
+    });
+
+    return result;
   }
 
   // 计算小组积分榜（排除某场比赛）
@@ -574,11 +734,35 @@ const Predictor = (() => {
     awayXG *= (1 - h2hScore * 0.10);
 
     // 4g. 小组形势(必须赢/已晋级保留体力/出局摆烂)
+    // 2026 规则: 前2名+8个最好第3名出线 → 4分基本安全，强队收力概率大
     const stageScore = factors.groupStage?.score || 0;
     homeXG *= (1 + stageScore * 0.25);
     awayXG *= (1 - stageScore * 0.25);
-    if (Math.abs(stageScore) > 0.15 && factors.groupStage?.detail) {
+    if (Math.abs(stageScore) > 0.1 && factors.groupStage?.detail) {
       narrative.push(`📋 ${factors.groupStage.detail}`);
+    }
+    // 额外: 收力/拼命的叙事补充
+    if (factors.groupStage?.advancement) {
+      const hAdv = factors.groupStage.advancement[homeCode];
+      const aAdv = factors.groupStage.advancement[awayCode];
+      if (hAdv && hAdv.status === 'safe') {
+        narrative.push(`💤 ${homeCode}已稳获出线权，预计大幅轮换，实际战力可能下降20-30%`);
+      }
+      if (aAdv && aAdv.status === 'safe') {
+        narrative.push(`💤 ${awayCode}已稳获出线权，预计大幅轮换，实际战力可能下降20-30%`);
+      }
+      if (hAdv && hAdv.status === 'comfortable') {
+        narrative.push(`😌 ${homeCode}出线形势乐观(概率${Math.round(hAdv.prob*100)}%)，可能适度轮换主力`);
+      }
+      if (aAdv && aAdv.status === 'comfortable') {
+        narrative.push(`😌 ${awayCode}出线形势乐观(概率${Math.round(aAdv.prob*100)}%)，可能适度轮换主力`);
+      }
+      if (hAdv && hAdv.mustWin) {
+        narrative.push(`🔥 ${homeCode}背水一战！必须赢球才能保留出线希望，战意值拉满`);
+      }
+      if (aAdv && aAdv.mustWin) {
+        narrative.push(`🔥 ${awayCode}背水一战！必须赢球才能保留出线希望，战意值拉满`);
+      }
     }
 
     // 4h. 球场/海拔/气候

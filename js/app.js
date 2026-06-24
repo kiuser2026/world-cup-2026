@@ -269,24 +269,87 @@ const App = (() => {
       `;
     }
 
-    // 小组积分榜
+    // 小组积分榜 + 出线形势
     if (factors.groupStage && factors.groupStage.standings) {
+      const adv = factors.groupStage.advancement;
       html += `<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">
-        <div style="font-weight:700;margin-bottom:4px">📋 小组积分榜</div>
+        <div style="font-weight:700;margin-bottom:4px">📋 小组积分榜 & 出线形势</div>
+        <div style="font-size:10px;color:var(--text-dim);margin-bottom:6px">规则: 前2名直接出线 + 8个最好第3名也出线 → 4分基本安全，强队可能收力</div>
         <table style="width:100%;font-size:11px;border-collapse:collapse">
-          <tr style="color:var(--text-dim)"><td>球队</td><td>赛</td><td>胜</td><td>平</td><td>负</td><td>进</td><td>失</td><td>分</td></tr>`;
-      factors.groupStage.standings.forEach(s => {
+          <tr style="color:var(--text-dim)"><td>#</td><td>球队</td><td>赛</td><td>胜</td><td>平</td><td>负</td><td>进</td><td>失</td><td>净</td><td>分</td><td>出线</td></tr>`;
+      factors.groupStage.standings.forEach((s, idx) => {
         const t = TEAMS[s.team];
         const isHome = s.team === match.home;
         const isAway = s.team === match.away;
         const highlight = isHome || isAway ? 'color:var(--accent);font-weight:700' : '';
+        const gd = s.gf - s.ga;
+        const gdColor = gd > 0 ? 'var(--win)' : gd < 0 ? 'var(--loss)' : 'var(--text-dim)';
+        const gdStr = gd > 0 ? `+${gd}` : `${gd}`;
+        // 出线概率条
+        const teamAdv = adv ? adv[s.team] : null;
+        let probBar = '';
+        if (teamAdv) {
+          const pct = Math.round(teamAdv.prob * 100);
+          const barColor = pct >= 80 ? 'var(--win)' : pct >= 50 ? 'var(--draw)' : pct >= 20 ? 'var(--accent2)' : 'var(--loss)';
+          const statusLabel = teamAdv.status === 'safe' ? '✅稳'
+                            : teamAdv.status === 'comfortable' ? '😌安'
+                            : teamAdv.mustWin ? '🔥拼'
+                            : teamAdv.eliminated ? '❌出'
+                            : '⚡争';
+          probBar = `<span style="display:inline-block;width:32px;text-align:center;font-size:10px;font-weight:700;color:${barColor}">${statusLabel}</span>
+                     <div style="display:inline-block;width:40px;height:6px;background:var(--bg);border-radius:3px;vertical-align:middle">
+                       <div style="width:${pct}%;height:100%;background:${barColor};border-radius:3px"></div>
+                     </div>
+                     <span style="font-size:9px;color:var(--text-dim)">${pct}%</span>`;
+        }
         html += `<tr style="${highlight}">
+          <td style="font-weight:700;color:var(--text-dim)">${idx + 1}</td>
           <td>${t ? t.flag : ''} ${t ? t.name : s.team}</td>
           <td>${s.played}</td><td>${s.won}</td><td>${s.drawn}</td><td>${s.lost}</td>
-          <td>${s.gf}</td><td>${s.ga}</td><td style="font-weight:700">${s.pts}</td>
+          <td>${s.gf}</td><td>${s.ga}</td><td style="color:${gdColor}">${gdStr}</td>
+          <td style="font-weight:700">${s.pts}</td>
+          <td style="min-width:90px">${probBar}</td>
         </tr>`;
       });
-      html += '</table></div>';
+      html += '</table>';
+
+      // 出线形势解读
+      if (adv) {
+        const hAdv = adv[match.home];
+        const aAdv = adv[match.away];
+        const interpretations = [];
+        if (hAdv) {
+          if (hAdv.status === 'safe') interpretations.push(`🟢 ${TEAMS[match.home]?.name || match.home}已确保出线，末轮可能大幅轮换`);
+          else if (hAdv.status === 'comfortable') interpretations.push(`🟡 ${TEAMS[match.home]?.name || match.home}出线形势乐观，可能适度收力`);
+          else if (hAdv.mustWin) interpretations.push(`🔴 ${TEAMS[match.home]?.name || match.home}背水一战，必须取胜`);
+          else if (hAdv.eliminated) interpretations.push(`⚫ ${TEAMS[match.home]?.name || match.home}基本出局`);
+          else interpretations.push(`⚪ ${TEAMS[match.home]?.name || match.home}出线概率 ${Math.round(hAdv.prob * 100)}%，需争取积分`);
+        }
+        if (aAdv) {
+          if (aAdv.status === 'safe') interpretations.push(`🟢 ${TEAMS[match.away]?.name || match.away}已确保出线，末轮可能大幅轮换`);
+          else if (aAdv.status === 'comfortable') interpretations.push(`🟡 ${TEAMS[match.away]?.name || match.away}出线形势乐观，可能适度收力`);
+          else if (aAdv.mustWin) interpretations.push(`🔴 ${TEAMS[match.away]?.name || match.away}背水一战，必须取胜`);
+          else if (aAdv.eliminated) interpretations.push(`⚫ ${TEAMS[match.away]?.name || match.away}基本出局`);
+          else interpretations.push(`⚪ ${TEAMS[match.away]?.name || match.away}出线概率 ${Math.round(aAdv.prob * 100)}%，需争取积分`);
+        }
+        if (interpretations.length) {
+          html += `<div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:11px;color:var(--text-dim);line-height:1.8">
+            ${interpretations.map(i => `<div>${i}</div>`).join('')}
+          </div>`;
+        }
+
+        // 收力提示
+        const safeOrComfortable = [match.home, match.away].filter(code =>
+          adv[code] && (adv[code].status === 'safe' || adv[code].status === 'comfortable'));
+        if (safeOrComfortable.length) {
+          const names = safeOrComfortable.map(c => TEAMS[c]?.name || c).join('、');
+          html += `<div style="margin-top:4px;padding:4px 8px;background:rgba(255,152,0,0.1);border-radius:4px;font-size:11px;color:#ff9800">
+            💡 ${names} 出线在握 → 可能轮换主力、保存体力应对淘汰赛，实际战力可能低于纸面实力
+          </div>`;
+        }
+      }
+
+      html += '</div>';
     }
 
     // 综合结论
@@ -419,6 +482,55 @@ const App = (() => {
         narrative.innerHTML = '<div class="narrative-title">⚡ AI 重点关注</div>' +
           pred.narrative.map(n => `<div class="narrative-item">${n}</div>`).join('');
         card.appendChild(narrative);
+      }
+
+      // 小组出线形势(仅小组赛)
+      if (match.stage === 'group' && pred.factors?.groupStage?.advancement) {
+        const adv = pred.factors.groupStage.advancement;
+        const hAdv = adv[match.home];
+        const aAdv = adv[match.away];
+        const standings = pred.factors.groupStage.standings;
+
+        if (standings && (hAdv || aAdv)) {
+          const advDiv = el('div', { class: 'predict-advancement' });
+          advDiv.style.cssText = 'margin-top:8px;padding:8px 10px;background:var(--card-alt);border-radius:8px;border:1px solid var(--border);font-size:11px';
+
+          let advHtml = '<div style="font-weight:700;margin-bottom:4px;color:var(--accent)">📋 小组出线形势 <span style="font-weight:400;font-size:10px;color:var(--text-dim)">前2名+8个最好第3名出线</span></div>';
+
+          // 本场双方出线概率
+          [match.home, match.away].forEach(code => {
+            const teamAdv = adv[code];
+            const t = TEAMS[code];
+            if (!teamAdv) return;
+            const pct = Math.round(teamAdv.prob * 100);
+            const barColor = pct >= 80 ? 'var(--win)' : pct >= 50 ? 'var(--draw)' : pct >= 20 ? 'var(--accent2)' : 'var(--loss)';
+            const label = teamAdv.status === 'safe' ? '稳出线'
+                        : teamAdv.status === 'comfortable' ? '形势乐观'
+                        : teamAdv.mustWin ? '必须赢'
+                        : teamAdv.eliminated ? '已出局'
+                        : '争取中';
+            advHtml += `<div style="display:flex;align-items:center;gap:6px;margin:3px 0">
+              <span>${t ? t.flag : ''} ${t ? t.name : code}</span>
+              <div style="flex:1;height:6px;background:var(--bg);border-radius:3px;overflow:hidden">
+                <div style="width:${pct}%;height:100%;background:${barColor};border-radius:3px"></div>
+              </div>
+              <span style="color:${barColor};font-weight:600;min-width:50px;text-align:right">${label} ${pct}%</span>
+            </div>`;
+          });
+
+          // 收力提示
+          const resting = [match.home, match.away].filter(c =>
+            adv[c] && (adv[c].status === 'safe' || adv[c].status === 'comfortable'));
+          if (resting.length) {
+            const names = resting.map(c => TEAMS[c]?.name || c).join('、');
+            advHtml += `<div style="margin-top:6px;padding:4px 8px;background:rgba(255,152,0,0.08);border-radius:4px;color:#ff9800;font-size:10px">
+              💡 ${names} 出线在握 → 可能轮换主力收力，实际战力可能低于纸面实力
+            </div>`;
+          }
+
+          advDiv.innerHTML = advHtml;
+          card.appendChild(advDiv);
+        }
       }
 
       // 多场景比分预测
@@ -647,7 +759,50 @@ const App = (() => {
       return;
     }
 
-    // 有比赛结果后，显示实际 vs 预测对比
+    // 有比赛结果后，先显示小组出线形势概览
+    const groupsWithResults = [...new Set(finishedMatches.filter(m => m.stage === 'group').map(m => m.group))].sort();
+    if (groupsWithResults.length) {
+      page.appendChild(el('div', { class: 'chart-title', text: '📋 小组出线形势一览' }));
+      page.appendChild(el('div', { style: 'font-size:12px;color:var(--text-dim);margin-bottom:12px',
+        text: '前2名直接出线 + 8个最好第3名也出线 → 4分基本安全，强队可能收力' }));
+
+      groupsWithResults.forEach(g => {
+        const standings = Predictor.calcGroupStandings(g);
+        const gCard = el('div', { class: 'chart-container', style: 'padding:10px 14px' });
+        let html = `<div style="font-weight:700;margin-bottom:6px;font-size:13px">${g} 组</div>`;
+        html += `<table style="width:100%;font-size:11px;border-collapse:collapse">
+          <tr style="color:var(--text-dim);font-size:10px"><td>#</td><td>球队</td><td>赛</td><td>胜</td><td>平</td><td>负</td><td>净胜球</td><td>积分</td><td>出线形势</td></tr>`;
+        standings.forEach((s, idx) => {
+          const t = TEAMS[s.team];
+          const gd = s.gf - s.ga;
+          const gdStr = gd > 0 ? `+${gd}` : `${gd}`;
+          const gdColor = gd > 0 ? 'var(--win)' : gd < 0 ? 'var(--loss)' : 'var(--text-dim)';
+          // 出线形势判断
+          let statusStr = '';
+          let statusColor = 'var(--text-dim)';
+          if (s.pts >= 6) { statusStr = '✅ 稳出线'; statusColor = 'var(--win)'; }
+          else if (s.pts >= 4 && idx < 2) { statusStr = '😌 大概率'; statusColor = 'var(--win)'; }
+          else if (s.pts >= 4 && idx === 2 && gd >= 0) { statusStr = '😌 第3也能出线'; statusColor = 'var(--draw)'; }
+          else if (s.pts >= 3 && idx < 2) { statusStr = '⚡ 有望'; statusColor = 'var(--draw)'; }
+          else if (s.pts >= 3 && idx === 2) { statusStr = '🔄 看命'; statusColor = 'var(--accent2)'; }
+          else if (s.pts >= 1) { statusStr = '⚠️ 危险'; statusColor = 'var(--loss)'; }
+          else { statusStr = '❌ 出局'; statusColor = 'var(--loss)'; }
+          html += `<tr>
+            <td style="font-weight:700;color:var(--text-dim)">${idx+1}</td>
+            <td>${t ? t.flag : ''} ${t ? t.name : s.team}</td>
+            <td>${s.played}</td><td>${s.won}</td><td>${s.drawn}</td><td>${s.lost}</td>
+            <td style="color:${gdColor}">${gdStr}</td>
+            <td style="font-weight:700">${s.pts}</td>
+            <td style="color:${statusColor};font-weight:600">${statusStr}</td>
+          </tr>`;
+        });
+        html += '</table>';
+        gCard.innerHTML = html;
+        page.appendChild(gCard);
+      });
+    }
+
+    // 实际 vs 预测对比
     const teamPerf = {};
     finishedMatches.forEach(m => {
       const pred = Predictor.predict(m.home, m.away, { match: m });
