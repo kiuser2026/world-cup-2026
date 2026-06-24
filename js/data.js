@@ -1,4 +1,4 @@
-// 最后更新: 2026/6/18 12:38:20
+// 最后更新: 2026/6/24 13:39:41
 // 数据来源: football-data.org (FIFA World Cup)
 // ============================================================
 // 2026 FIFA World Cup — 赛程 & 球队数据 (来自 openfootball)
@@ -117,96 +117,96 @@ const MATCHES = [
   // ── A 组 ──
   { id:1,  stage:'group', group:'A', matchday:1, date:'2026-06-11', time:'13:00', venue:'Mexico City', home:'MEX', away:'RSA', homeScore:2, awayScore:0 },
   { id:2,  stage:'group', group:'A', matchday:1, date:'2026-06-12', time:'20:00', venue:'Guadalajara (Zapopan)', home:'KOR', away:'CZE', homeScore:2, awayScore:1 },
-  { id:3,  stage:'group', group:'A', matchday:2, date:'2026-06-18', time:'12:00', venue:'Atlanta', home:'CZE', away:'RSA', homeScore:null, awayScore:null },
-  { id:4,  stage:'group', group:'A', matchday:2, date:'2026-06-18', time:'19:00', venue:'Guadalajara (Zapopan)', home:'MEX', away:'KOR', homeScore:null, awayScore:null },
+  { id:3,  stage:'group', group:'A', matchday:2, date:'2026-06-18', time:'12:00', venue:'Atlanta', home:'CZE', away:'RSA', homeScore:1, awayScore:1 },
+  { id:4,  stage:'group', group:'A', matchday:2, date:'2026-06-19', time:'19:00', venue:'Guadalajara (Zapopan)', home:'MEX', away:'KOR', homeScore:1, awayScore:0 },
   { id:5,  stage:'group', group:'A', matchday:3, date:'2026-06-24', time:'19:00', venue:'Mexico City', home:'CZE', away:'MEX', homeScore:null, awayScore:null },
   { id:6,  stage:'group', group:'A', matchday:3, date:'2026-06-24', time:'19:00', venue:'Monterrey (Guadalupe)', home:'RSA', away:'KOR', homeScore:null, awayScore:null },
 
   // ── B 组 ──
   { id:7,  stage:'group', group:'B', matchday:1, date:'2026-06-12', time:'15:00', venue:'Toronto', home:'CAN', away:'BIH', homeScore:1, awayScore:1 },
   { id:8,  stage:'group', group:'B', matchday:1, date:'2026-06-13', time:'12:00', venue:'San Francisco Bay Area (Santa Clara)', home:'QAT', away:'SUI', homeScore:1, awayScore:1 },
-  { id:9,  stage:'group', group:'B', matchday:2, date:'2026-06-18', time:'12:00', venue:'Los Angeles (Inglewood)', home:'SUI', away:'BIH', homeScore:null, awayScore:null },
-  { id:10, stage:'group', group:'B', matchday:2, date:'2026-06-18', time:'15:00', venue:'Vancouver', home:'CAN', away:'QAT', homeScore:null, awayScore:null },
+  { id:9,  stage:'group', group:'B', matchday:2, date:'2026-06-18', time:'12:00', venue:'Los Angeles (Inglewood)', home:'SUI', away:'BIH', homeScore:4, awayScore:1 },
+  { id:10, stage:'group', group:'B', matchday:2, date:'2026-06-18', time:'15:00', venue:'Vancouver', home:'CAN', away:'QAT', homeScore:6, awayScore:0 },
   { id:11, stage:'group', group:'B', matchday:3, date:'2026-06-24', time:'12:00', venue:'Vancouver', home:'SUI', away:'CAN', homeScore:null, awayScore:null },
   { id:12, stage:'group', group:'B', matchday:3, date:'2026-06-24', time:'12:00', venue:'Seattle', home:'BIH', away:'QAT', homeScore:null, awayScore:null },
 
   // ── C 组 ──
   { id:13, stage:'group', group:'C', matchday:1, date:'2026-06-13', time:'18:00', venue:'New York/New Jersey (East Rutherford)', home:'BRA', away:'MAR', homeScore:1, awayScore:1 },
   { id:14, stage:'group', group:'C', matchday:1, date:'2026-06-14', time:'21:00', venue:'Boston (Foxborough)', home:'HAI', away:'SCO', homeScore:0, awayScore:1 },
-  { id:15, stage:'group', group:'C', matchday:2, date:'2026-06-19', time:'18:00', venue:'Boston (Foxborough)', home:'SCO', away:'MAR', homeScore:null, awayScore:null },
-  { id:16, stage:'group', group:'C', matchday:2, date:'2026-06-19', time:'20:30', venue:'Philadelphia', home:'BRA', away:'HAI', homeScore:null, awayScore:null },
+  { id:15, stage:'group', group:'C', matchday:2, date:'2026-06-19', time:'18:00', venue:'Boston (Foxborough)', home:'SCO', away:'MAR', homeScore:0, awayScore:1 },
+  { id:16, stage:'group', group:'C', matchday:2, date:'2026-06-20', time:'20:30', venue:'Philadelphia', home:'BRA', away:'HAI', homeScore:3, awayScore:0 },
   { id:17, stage:'group', group:'C', matchday:3, date:'2026-06-24', time:'18:00', venue:'Miami (Miami Gardens)', home:'SCO', away:'BRA', homeScore:null, awayScore:null },
   { id:18, stage:'group', group:'C', matchday:3, date:'2026-06-24', time:'18:00', venue:'Atlanta', home:'MAR', away:'HAI', homeScore:null, awayScore:null },
 
   // ── D 组 ──
   { id:19, stage:'group', group:'D', matchday:1, date:'2026-06-13', time:'18:00', venue:'Los Angeles (Inglewood)', home:'USA', away:'PAR', homeScore:4, awayScore:1 },
   { id:20, stage:'group', group:'D', matchday:1, date:'2026-06-14', time:'21:00', venue:'Vancouver', home:'AUS', away:'TUR', homeScore:2, awayScore:0 },
-  { id:21, stage:'group', group:'D', matchday:2, date:'2026-06-19', time:'12:00', venue:'Seattle', home:'USA', away:'AUS', homeScore:null, awayScore:null },
-  { id:22, stage:'group', group:'D', matchday:2, date:'2026-06-19', time:'20:00', venue:'San Francisco Bay Area (Santa Clara)', home:'TUR', away:'PAR', homeScore:null, awayScore:null },
+  { id:21, stage:'group', group:'D', matchday:2, date:'2026-06-19', time:'12:00', venue:'Seattle', home:'USA', away:'AUS', homeScore:2, awayScore:0 },
+  { id:22, stage:'group', group:'D', matchday:2, date:'2026-06-20', time:'20:00', venue:'San Francisco Bay Area (Santa Clara)', home:'TUR', away:'PAR', homeScore:0, awayScore:1 },
   { id:23, stage:'group', group:'D', matchday:3, date:'2026-06-25', time:'19:00', venue:'Los Angeles (Inglewood)', home:'TUR', away:'USA', homeScore:null, awayScore:null },
   { id:24, stage:'group', group:'D', matchday:3, date:'2026-06-25', time:'19:00', venue:'San Francisco Bay Area (Santa Clara)', home:'PAR', away:'AUS', homeScore:null, awayScore:null },
 
   // ── E 组 ──
   { id:25, stage:'group', group:'E', matchday:1, date:'2026-06-14', time:'12:00', venue:'Houston', home:'GER', away:'CUW', homeScore:7, awayScore:1 },
   { id:26, stage:'group', group:'E', matchday:1, date:'2026-06-14', time:'19:00', venue:'Philadelphia', home:'CIV', away:'ECU', homeScore:1, awayScore:0 },
-  { id:27, stage:'group', group:'E', matchday:2, date:'2026-06-20', time:'16:00', venue:'Toronto', home:'GER', away:'CIV', homeScore:null, awayScore:null },
-  { id:28, stage:'group', group:'E', matchday:2, date:'2026-06-20', time:'19:00', venue:'Kansas City', home:'ECU', away:'CUW', homeScore:null, awayScore:null },
+  { id:27, stage:'group', group:'E', matchday:2, date:'2026-06-20', time:'16:00', venue:'Toronto', home:'GER', away:'CIV', homeScore:2, awayScore:1 },
+  { id:28, stage:'group', group:'E', matchday:2, date:'2026-06-21', time:'19:00', venue:'Kansas City', home:'ECU', away:'CUW', homeScore:0, awayScore:0 },
   { id:29, stage:'group', group:'E', matchday:3, date:'2026-06-25', time:'16:00', venue:'Philadelphia', home:'CUW', away:'CIV', homeScore:null, awayScore:null },
   { id:30, stage:'group', group:'E', matchday:3, date:'2026-06-25', time:'16:00', venue:'New York/New Jersey (East Rutherford)', home:'ECU', away:'GER', homeScore:null, awayScore:null },
 
   // ── F 组 ──
   { id:31, stage:'group', group:'F', matchday:1, date:'2026-06-14', time:'15:00', venue:'Dallas (Arlington)', home:'NED', away:'JPN', homeScore:2, awayScore:2 },
   { id:32, stage:'group', group:'F', matchday:1, date:'2026-06-15', time:'20:00', venue:'Monterrey (Guadalupe)', home:'SWE', away:'TUN', homeScore:5, awayScore:1 },
-  { id:33, stage:'group', group:'F', matchday:2, date:'2026-06-20', time:'12:00', venue:'Houston', home:'NED', away:'SWE', homeScore:null, awayScore:null },
-  { id:34, stage:'group', group:'F', matchday:2, date:'2026-06-20', time:'22:00', venue:'Monterrey (Guadalupe)', home:'TUN', away:'JPN', homeScore:null, awayScore:null },
+  { id:33, stage:'group', group:'F', matchday:2, date:'2026-06-20', time:'12:00', venue:'Houston', home:'NED', away:'SWE', homeScore:5, awayScore:1 },
+  { id:34, stage:'group', group:'F', matchday:2, date:'2026-06-21', time:'22:00', venue:'Monterrey (Guadalupe)', home:'TUN', away:'JPN', homeScore:0, awayScore:4 },
   { id:35, stage:'group', group:'F', matchday:3, date:'2026-06-25', time:'18:00', venue:'Dallas (Arlington)', home:'JPN', away:'SWE', homeScore:null, awayScore:null },
   { id:36, stage:'group', group:'F', matchday:3, date:'2026-06-25', time:'18:00', venue:'Kansas City', home:'TUN', away:'NED', homeScore:null, awayScore:null },
 
   // ── G 组 ──
   { id:37, stage:'group', group:'G', matchday:1, date:'2026-06-15', time:'12:00', venue:'Seattle', home:'BEL', away:'EGY', homeScore:1, awayScore:1 },
   { id:38, stage:'group', group:'G', matchday:1, date:'2026-06-16', time:'18:00', venue:'Los Angeles (Inglewood)', home:'IRN', away:'NZL', homeScore:2, awayScore:2 },
-  { id:39, stage:'group', group:'G', matchday:2, date:'2026-06-21', time:'12:00', venue:'Los Angeles (Inglewood)', home:'BEL', away:'IRN', homeScore:null, awayScore:null },
-  { id:40, stage:'group', group:'G', matchday:2, date:'2026-06-21', time:'18:00', venue:'Vancouver', home:'NZL', away:'EGY', homeScore:null, awayScore:null },
+  { id:39, stage:'group', group:'G', matchday:2, date:'2026-06-21', time:'12:00', venue:'Los Angeles (Inglewood)', home:'BEL', away:'IRN', homeScore:0, awayScore:0 },
+  { id:40, stage:'group', group:'G', matchday:2, date:'2026-06-22', time:'18:00', venue:'Vancouver', home:'NZL', away:'EGY', homeScore:1, awayScore:3 },
   { id:41, stage:'group', group:'G', matchday:3, date:'2026-06-26', time:'20:00', venue:'Seattle', home:'EGY', away:'IRN', homeScore:null, awayScore:null },
   { id:42, stage:'group', group:'G', matchday:3, date:'2026-06-26', time:'20:00', venue:'Vancouver', home:'NZL', away:'BEL', homeScore:null, awayScore:null },
 
   // ── H 组 ──
   { id:43, stage:'group', group:'H', matchday:1, date:'2026-06-15', time:'12:00', venue:'Atlanta', home:'ESP', away:'CPV', homeScore:0, awayScore:0 },
   { id:44, stage:'group', group:'H', matchday:1, date:'2026-06-15', time:'18:00', venue:'Miami (Miami Gardens)', home:'KSA', away:'URU', homeScore:1, awayScore:1 },
-  { id:45, stage:'group', group:'H', matchday:2, date:'2026-06-21', time:'12:00', venue:'Atlanta', home:'ESP', away:'KSA', homeScore:null, awayScore:null },
-  { id:46, stage:'group', group:'H', matchday:2, date:'2026-06-21', time:'18:00', venue:'Miami (Miami Gardens)', home:'URU', away:'CPV', homeScore:null, awayScore:null },
+  { id:45, stage:'group', group:'H', matchday:2, date:'2026-06-21', time:'12:00', venue:'Atlanta', home:'ESP', away:'KSA', homeScore:4, awayScore:0 },
+  { id:46, stage:'group', group:'H', matchday:2, date:'2026-06-21', time:'18:00', venue:'Miami (Miami Gardens)', home:'URU', away:'CPV', homeScore:2, awayScore:2 },
   { id:47, stage:'group', group:'H', matchday:3, date:'2026-06-26', time:'19:00', venue:'Houston', home:'CPV', away:'KSA', homeScore:null, awayScore:null },
   { id:48, stage:'group', group:'H', matchday:3, date:'2026-06-26', time:'18:00', venue:'Guadalajara (Zapopan)', home:'URU', away:'ESP', homeScore:null, awayScore:null },
 
   // ── I 组 ──
   { id:49, stage:'group', group:'I', matchday:1, date:'2026-06-16', time:'15:00', venue:'New York/New Jersey (East Rutherford)', home:'FRA', away:'SEN', homeScore:3, awayScore:1 },
   { id:50, stage:'group', group:'I', matchday:1, date:'2026-06-16', time:'18:00', venue:'Boston (Foxborough)', home:'IRQ', away:'NOR', homeScore:1, awayScore:4 },
-  { id:51, stage:'group', group:'I', matchday:2, date:'2026-06-22', time:'17:00', venue:'Philadelphia', home:'FRA', away:'IRQ', homeScore:null, awayScore:null },
-  { id:52, stage:'group', group:'I', matchday:2, date:'2026-06-22', time:'20:00', venue:'New York/New Jersey (East Rutherford)', home:'NOR', away:'SEN', homeScore:null, awayScore:null },
+  { id:51, stage:'group', group:'I', matchday:2, date:'2026-06-22', time:'17:00', venue:'Philadelphia', home:'FRA', away:'IRQ', homeScore:3, awayScore:0 },
+  { id:52, stage:'group', group:'I', matchday:2, date:'2026-06-23', time:'20:00', venue:'New York/New Jersey (East Rutherford)', home:'NOR', away:'SEN', homeScore:3, awayScore:2 },
   { id:53, stage:'group', group:'I', matchday:3, date:'2026-06-26', time:'15:00', venue:'Boston (Foxborough)', home:'NOR', away:'FRA', homeScore:null, awayScore:null },
   { id:54, stage:'group', group:'I', matchday:3, date:'2026-06-26', time:'15:00', venue:'Toronto', home:'SEN', away:'IRQ', homeScore:null, awayScore:null },
 
   // ── J 组 ──
   { id:55, stage:'group', group:'J', matchday:1, date:'2026-06-17', time:'20:00', venue:'Kansas City', home:'ARG', away:'ALG', homeScore:3, awayScore:0 },
   { id:56, stage:'group', group:'J', matchday:1, date:'2026-06-17', time:'21:00', venue:'San Francisco Bay Area (Santa Clara)', home:'AUT', away:'JOR', homeScore:3, awayScore:1 },
-  { id:57, stage:'group', group:'J', matchday:2, date:'2026-06-22', time:'12:00', venue:'Dallas (Arlington)', home:'ARG', away:'AUT', homeScore:null, awayScore:null },
-  { id:58, stage:'group', group:'J', matchday:2, date:'2026-06-22', time:'20:00', venue:'San Francisco Bay Area (Santa Clara)', home:'JOR', away:'ALG', homeScore:null, awayScore:null },
+  { id:57, stage:'group', group:'J', matchday:2, date:'2026-06-22', time:'12:00', venue:'Dallas (Arlington)', home:'ARG', away:'AUT', homeScore:2, awayScore:0 },
+  { id:58, stage:'group', group:'J', matchday:2, date:'2026-06-23', time:'20:00', venue:'San Francisco Bay Area (Santa Clara)', home:'JOR', away:'ALG', homeScore:1, awayScore:2 },
   { id:59, stage:'group', group:'J', matchday:3, date:'2026-06-27', time:'21:00', venue:'Kansas City', home:'ALG', away:'AUT', homeScore:null, awayScore:null },
   { id:60, stage:'group', group:'J', matchday:3, date:'2026-06-27', time:'21:00', venue:'Dallas (Arlington)', home:'JOR', away:'ARG', homeScore:null, awayScore:null },
 
   // ── K 组 ──
   { id:61, stage:'group', group:'K', matchday:1, date:'2026-06-17', time:'12:00', venue:'Houston', home:'POR', away:'COD', homeScore:1, awayScore:1 },
   { id:62, stage:'group', group:'K', matchday:1, date:'2026-06-18', time:'20:00', venue:'Mexico City', home:'UZB', away:'COL', homeScore:1, awayScore:3 },
-  { id:63, stage:'group', group:'K', matchday:2, date:'2026-06-23', time:'12:00', venue:'Houston', home:'POR', away:'UZB', homeScore:null, awayScore:null },
-  { id:64, stage:'group', group:'K', matchday:2, date:'2026-06-23', time:'20:00', venue:'Guadalajara (Zapopan)', home:'COL', away:'COD', homeScore:null, awayScore:null },
+  { id:63, stage:'group', group:'K', matchday:2, date:'2026-06-23', time:'12:00', venue:'Houston', home:'POR', away:'UZB', homeScore:5, awayScore:0 },
+  { id:64, stage:'group', group:'K', matchday:2, date:'2026-06-24', time:'20:00', venue:'Guadalajara (Zapopan)', home:'COL', away:'COD', homeScore:1, awayScore:0 },
   { id:65, stage:'group', group:'K', matchday:3, date:'2026-06-27', time:'19:30', venue:'Miami (Miami Gardens)', home:'COL', away:'POR', homeScore:null, awayScore:null },
   { id:66, stage:'group', group:'K', matchday:3, date:'2026-06-27', time:'19:30', venue:'Atlanta', home:'COD', away:'UZB', homeScore:null, awayScore:null },
 
   // ── L 组 ──
   { id:67, stage:'group', group:'L', matchday:1, date:'2026-06-17', time:'15:00', venue:'Dallas (Arlington)', home:'ENG', away:'CRO', homeScore:4, awayScore:2 },
   { id:68, stage:'group', group:'L', matchday:1, date:'2026-06-17', time:'19:00', venue:'Toronto', home:'GHA', away:'PAN', homeScore:1, awayScore:0 },
-  { id:69, stage:'group', group:'L', matchday:2, date:'2026-06-23', time:'16:00', venue:'Boston (Foxborough)', home:'ENG', away:'GHA', homeScore:null, awayScore:null },
-  { id:70, stage:'group', group:'L', matchday:2, date:'2026-06-23', time:'19:00', venue:'Toronto', home:'PAN', away:'CRO', homeScore:null, awayScore:null },
+  { id:69, stage:'group', group:'L', matchday:2, date:'2026-06-23', time:'16:00', venue:'Boston (Foxborough)', home:'ENG', away:'GHA', homeScore:0, awayScore:0 },
+  { id:70, stage:'group', group:'L', matchday:2, date:'2026-06-23', time:'19:00', venue:'Toronto', home:'PAN', away:'CRO', homeScore:0, awayScore:1 },
   { id:71, stage:'group', group:'L', matchday:3, date:'2026-06-27', time:'17:00', venue:'New York/New Jersey (East Rutherford)', home:'PAN', away:'ENG', homeScore:null, awayScore:null },
   { id:72, stage:'group', group:'L', matchday:3, date:'2026-06-27', time:'17:00', venue:'Philadelphia', home:'CRO', away:'GHA', homeScore:null, awayScore:null },
 
