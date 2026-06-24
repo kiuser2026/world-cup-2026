@@ -1,4 +1,4 @@
-// 最后更新: 2026/6/25 04:58:32
+// 最后更新: 2026/6/25 05:36:20
 // 数据来源: football-data.org (FIFA World Cup)
 // ============================================================
 // 2026 FIFA World Cup — 赛程 & 球队数据 (来自 openfootball)
@@ -127,8 +127,8 @@ const MATCHES = [
   { id:8,  stage:'group', group:'B', matchday:1, date:'2026-06-13', time:'12:00', venue:'San Francisco Bay Area (Santa Clara)', home:'QAT', away:'SUI', homeScore:1, awayScore:1 },
   { id:9,  stage:'group', group:'B', matchday:2, date:'2026-06-18', time:'12:00', venue:'Los Angeles (Inglewood)', home:'SUI', away:'BIH', homeScore:4, awayScore:1 },
   { id:10, stage:'group', group:'B', matchday:2, date:'2026-06-18', time:'15:00', venue:'Vancouver', home:'CAN', away:'QAT', homeScore:6, awayScore:0 },
-  { id:11, stage:'group', group:'B', matchday:3, date:'2026-06-24', time:'12:00', venue:'Vancouver', home:'SUI', away:'CAN', homeScore:null, awayScore:null },
-  { id:12, stage:'group', group:'B', matchday:3, date:'2026-06-24', time:'12:00', venue:'Seattle', home:'BIH', away:'QAT', homeScore:null, awayScore:null },
+  { id:11, stage:'group', group:'B', matchday:3, date:'2026-06-24', time:'12:00', venue:'Vancouver', home:'SUI', away:'CAN', homeScore:2, awayScore:1 },
+  { id:12, stage:'group', group:'B', matchday:3, date:'2026-06-24', time:'12:00', venue:'Seattle', home:'BIH', away:'QAT', homeScore:3, awayScore:1 },
 
   // ── C 组 ──
   { id:13, stage:'group', group:'C', matchday:1, date:'2026-06-13', time:'18:00', venue:'New York/New Jersey (East Rutherford)', home:'BRA', away:'MAR', homeScore:1, awayScore:1 },
