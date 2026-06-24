@@ -21,6 +21,20 @@ const App = (() => {
     return Object.entries(g).sort(([a],[b]) => a.localeCompare(b));
   };
 
+  /** 比赛排序优先级: 进行中 > 未开始 > 已结束 */
+  function matchPriority(m) {
+    if (isFinished(m)) return 2;
+    if (isLive(m)) return 0;
+    return 1;
+  }
+
+  /** 按比赛时间(日期+时间)排序, 同时间用 id 兜底 */
+  function compareMatchTime(a, b) {
+    const ka = `${a.date} ${a.time || '00:00'}`;
+    const kb = `${b.date} ${b.time || '00:00'}`;
+    return ka.localeCompare(kb) || a.id - b.id;
+  }
+
   function init() {
     try {
       bindTabs();
@@ -99,6 +113,9 @@ const App = (() => {
     if (stage !== 'all') matches = matches.filter(m => m.stage === stage);
     if (group !== 'all') matches = matches.filter(m => m.group === group);
     if (status !== 'all') matches = matches.filter(m => matchStatus(m) === status);
+
+    // 未开始/进行中的比赛置顶, 已结束的比赛置底; 同状态内按时间升序
+    matches.sort((a, b) => matchPriority(a) - matchPriority(b) || compareMatchTime(a, b));
 
     if (!matches.length) {
       container.appendChild(el('div', { class: 'empty-state', html:
@@ -381,7 +398,7 @@ const App = (() => {
     const page = document.getElementById('page-predict');
     page.innerHTML = '';
 
-    // 已踢完的比赛在"赛程"和"排行榜"页查看,这里只展示尚未打的
+    // 预测页只展示尚未结束的比赛, 并进行中置顶、未开始随后(均按时间升序)
     const upcomingMatches = MATCHES.filter(m => !isFinished(m));
 
     if (!upcomingMatches.length) {
@@ -392,16 +409,16 @@ const App = (() => {
       return;
     }
 
-    // 按比赛时间(date + time)升序排列;同一天按 id 兜底
-    const sorted = upcomingMatches.slice().sort((a, b) => {
-      const ka = `${a.date} ${a.time || '00:00'}`;
-      const kb = `${b.date} ${b.time || '00:00'}`;
-      return ka.localeCompare(kb) || a.id - b.id;
+    upcomingMatches.sort((a, b) => {
+      const aLive = isLive(a) ? 0 : 1;
+      const bLive = isLive(b) ? 0 : 1;
+      if (aLive !== bLive) return aLive - bLive;
+      return compareMatchTime(a, b);
     });
 
     // 按日期分组,日期作为分隔标题
     let currentDate = null;
-    sorted.forEach(m => {
+    upcomingMatches.forEach(m => {
       if (m.date !== currentDate) {
         currentDate = m.date;
         page.appendChild(el('div', { class: 'date-header', text: formatDateHeader(m.date) }));
@@ -865,6 +882,63 @@ const App = (() => {
     page.appendChild(resultChart);
   }
 
-  document.addEventListener('DOMContentLoaded', init);
-  return { init };
+  // ════════════════════════════════════════════════════════
+  // 自动刷新: 每 60 秒重新加载 js/data.js 并重新渲染
+  // ════════════════════════════════════════════════════════
+  const AUTO_REFRESH_INTERVAL = 60; // 秒
+  let refreshCountdown = AUTO_REFRESH_INTERVAL;
+  let countdownTimer = null;
+  let autoRefreshInitialized = false;
+
+  function reloadData() {
+    // 如果用户正在输入比分, 跳过本次自动刷新
+    const active = document.activeElement;
+    if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')) {
+      console.log('用户正在输入，跳过自动刷新');
+      return;
+    }
+
+    const existing = document.querySelector('script[data-reload="data"]');
+    if (existing) existing.remove();
+
+    const script = document.createElement('script');
+    script.src = `js/data.js?t=${Date.now()}`;
+    script.setAttribute('data-reload', 'data');
+    script.onload = () => {
+      console.log('[世界杯] 数据已重新加载:', new Date().toLocaleString('zh-CN'));
+      init();
+    };
+    script.onerror = () => console.error('[世界杯] 数据重新加载失败');
+    document.head.appendChild(script);
+  }
+
+  function startAutoRefresh() {
+    if (autoRefreshInitialized) return;
+    autoRefreshInitialized = true;
+
+    const countdownEl = document.getElementById('refresh-countdown');
+    const refreshBtn = document.getElementById('refresh-now');
+
+    if (refreshBtn) {
+      refreshBtn.addEventListener('click', () => {
+        refreshCountdown = AUTO_REFRESH_INTERVAL;
+        reloadData();
+      });
+    }
+
+    countdownTimer = setInterval(() => {
+      refreshCountdown--;
+      if (countdownEl) countdownEl.textContent = `下次自动刷新: ${refreshCountdown}s`;
+      if (refreshCountdown <= 0) {
+        refreshCountdown = AUTO_REFRESH_INTERVAL;
+        reloadData();
+      }
+    }, 1000);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    init();
+    startAutoRefresh();
+  });
+  return { init, reloadData };
 })();

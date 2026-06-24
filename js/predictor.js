@@ -8,16 +8,153 @@ const Predictor = (() => {
 
   // ── 权重配置 ──────────────────────────────────────────
   const WEIGHTS = {
-    ranking:      0.20,  // FIFA 排名
+    ranking:      0.18,  // FIFA 排名
     h2h:          0.08,  // 历史交锋
-    tactical:     0.15,  // 战术匹配
+    tactical:     0.14,  // 战术匹配
     injuries:     0.10,  // 伤停影响
-    venue:        0.10,  // 球场环境
+    venue:        0.09,  // 球场环境
     groupStage:   0.12,  // 小组形势(保存体力/必须赢)
-    morale:       0.08,  // 士气
-    fatigue:      0.07,  // 体能
-    recentForm:   0.10,  // 近期状态
+    morale:       0.07,  // 士气
+    fatigue:      0.06,  // 体能
+    recentForm:   0.09,  // 近期状态
+    politics:     0.05,  // 政治/场外因素
+    underdog:     0.07,  // 强弱博弈(弱队死守/强队轻敌)
   };
+
+  // ── 场外因素/政治背景数据库 ───────────────────────────
+  // impact: 对球队士气的加成/减成 (-0.2 ~ +0.2)
+  const POLITICAL_CONTEXT = {
+    MEX: { note: '东道主之一，主场气氛和民族情绪是巨大加成', impact: 0.15 },
+    USA: { note: '东道主之一，主场作战士气高涨', impact: 0.12 },
+    CAN: { note: '东道主之一，首次世界杯主场作战', impact: 0.12 },
+    UKR: { note: '受俄乌冲突影响，球队承载国家期望，战意极强', impact: 0.20 },
+    IRQ: { note: '国内局势复杂，国家队常成为民族凝聚象征', impact: 0.10 },
+    IRN: { note: '国内社会舆论压力大，国家队表现受全民关注', impact: 0.05 },
+    KSA: { note: '国家大力推动足球，世界杯成绩受高层重视', impact: 0.08 },
+    QAT: { note: '世界杯后持续投入足球，本届是证明之战', impact: 0.05 },
+    ARG: { note: '梅西最后一届世界杯，卫冕之路举国关注', impact: 0.10 },
+    FRA: { note: '队内关系与团结问题常被媒体放大', impact: -0.08 },
+    BEL: { note: '黄金一代谢幕，内部代际矛盾偶见报道', impact: -0.05 },
+    POR: { note: 'C罗谢幕世界杯，球队围绕老将的争议不断', impact: -0.04 },
+    KOR: { note: '民众对足球期待极高，国家队背负不小舆论压力', impact: 0.04 },
+    JPN: { note: '国内对世界杯期待高，球队目标突破16强', impact: 0.05 },
+  };
+
+  // 历史恩怨/宿敌对决
+  const RIVALRIES = {
+    'ARG-ENG': '马岛战争历史让英阿对决情绪复杂',
+    'ENG-ARG': '马岛战争历史让英阿对决情绪复杂',
+    'GER-NED': '欧洲足坛传统宿敌',
+    'NED-GER': '欧洲足坛传统宿敌',
+    'BRA-ARG': '南美死敌，世仇对决',
+    'ARG-BRA': '南美死敌，世仇对决',
+    'POR-ESP': '伊比利亚德比',
+    'ESP-POR': '伊比利亚德比',
+    'MEX-USA': '中北美足球宿敌',
+    'USA-MEX': '中北美足球宿敌',
+    'KOR-JPN': '东亚足球宿敌',
+    'JPN-KOR': '东亚足球宿敌',
+    'ALG-MAR': '北非地缘竞争，场内场外情绪都强烈',
+    'MAR-ALG': '北非地缘竞争，场内场外情绪都强烈',
+    'CRO-SRB': '巴尔干恩怨，交锋火药味浓',
+    'SRB-CRO': '巴尔干恩怨，交锋火药味浓',
+  };
+
+  // ── 辅助：读取带默认值的球队档案 ──────────────────────
+  function getProfile(code) {
+    const p = TeamProfiles[code];
+    if (!p) return null;
+    const rank = TEAMS[code]?.rank || 50;
+    return {
+      ...p,
+      defensiveResolve: p.defensiveResolve != null
+        ? p.defensiveResolve
+        : Math.max(4, Math.min(9, 10 - Math.floor((rank - 20) / 15))),
+      upsetPotential: p.upsetPotential != null
+        ? p.upsetPotential
+        : Math.max(3, Math.min(8, 7 - Math.floor((rank - 30) / 20))),
+    };
+  }
+
+  // ── 10. 场外因素/政治评分 ─────────────────────────────
+  function scorePolitics(homeCode, awayCode) {
+    const hCtx = POLITICAL_CONTEXT[homeCode] || { note: '', impact: 0 };
+    const aCtx = POLITICAL_CONTEXT[awayCode] || { note: '', impact: 0 };
+    const rivalry = RIVALRIES[`${homeCode}-${awayCode}`];
+
+    let score = hCtx.impact - aCtx.impact;
+    if (rivalry) score *= 1.5; // 宿敌对决，场外情绪放大
+
+    const notes = [];
+    if (hCtx.note) notes.push(`${homeCode}: ${hCtx.note}`);
+    if (aCtx.note) notes.push(`${awayCode}: ${aCtx.note}`);
+    if (rivalry) notes.push(`宿敌情绪: ${rivalry}`);
+
+    return {
+      score: Math.max(-0.5, Math.min(0.5, score)),
+      detail: notes.length ? `场外因素: ${notes.join('; ')}` : '无明显场外因素影响',
+    };
+  }
+
+  // ── 11. 强弱博弈评分 ──────────────────────────────────
+  // 弱队面对强队时的死命防守、摆大巴、伺机反击；
+  // 强队面对弱队时可能的轻敌、轮换、破密集防守效率。
+  function scoreUnderdog(homeCode, awayCode) {
+    const hRank = TEAMS[homeCode]?.rank || 50;
+    const aRank = TEAMS[awayCode]?.rank || 50;
+    const hp = getProfile(homeCode);
+    const ap = getProfile(awayCode);
+
+    const rankGap = Math.abs(hRank - aRank);
+    const notes = [];
+    let score = 0;
+
+    // 只有排名差距较大时才触发强弱博弈逻辑
+    if (rankGap >= 25) {
+      const favoriteCode = hRank < aRank ? homeCode : awayCode;
+      const underdogCode = hRank < aRank ? awayCode : homeCode;
+      const underdogProfile = hRank < aRank ? ap : hp;
+      const underdogRank = hRank < aRank ? aRank : hRank;
+      const isHomeFavorite = hRank < aRank;
+
+      notes.push(`${favoriteCode}实力明显占优，${underdogCode}大概率采取守势`);
+
+      // 是否擅长铁桶阵 / 大巴 / 防守反击
+      const bunkerStyle = underdogProfile?.playStyle?.some(s => /铁桶|大巴|防守反击|密集防守/.test(s));
+      const defensiveResolve = underdogProfile?.defensiveResolve || 5;
+
+      if (bunkerStyle || defensiveResolve >= 7) {
+        notes.push(`${underdogCode}擅长密集防守，可能摆出铁桶阵死命防守，把比赛拖入低比分`);
+        score += isHomeFavorite ? -0.28 : 0.28; // 弱队死守削弱强队进攻
+      } else if (defensiveResolve >= 5) {
+        notes.push(`${underdogCode}预计稳守反击，压缩${favoriteCode}的进攻空间`);
+        score += isHomeFavorite ? -0.15 : 0.15;
+      } else {
+        notes.push(`${underdogCode}防守韧性一般，${favoriteCode}可能较早破门`);
+        score += isHomeFavorite ? -0.05 : 0.05;
+      }
+
+      // 爆冷/反击威胁
+      const upsetPotential = underdogProfile?.upsetPotential || 4;
+      if (upsetPotential >= 6) {
+        notes.push(`${underdogCode}反击效率高，有偷一个或爆冷逼平的潜质`);
+        // 给弱队 slight 加分，但主方向仍是压制强队进攻
+        score += isHomeFavorite ? 0.06 : -0.06;
+      }
+
+      // 强队轻敌/轮换倾向（已出线的强队会更明显，groupStage 里处理）
+      // 这里只处理阵容深度带来的轻敌空间
+      const favoriteProfile = isHomeFavorite ? hp : ap;
+      if (favoriteProfile?.squadDepth >= 8) {
+        notes.push(`${favoriteCode}阵容深度好，但面对弱队可能出现注意力不集中的问题`);
+      }
+    }
+
+    return {
+      score: Math.max(-0.5, Math.min(0.5, score)),
+      detail: notes.length ? `强弱博弈: ${notes.join('; ')}` : '双方实力接近，预计对攻',
+    };
+  }
 
   // ── 泊松采样 ─────────────────────────────────────────
   function poissonSample(lambda) {
@@ -643,6 +780,8 @@ const Predictor = (() => {
       morale:     scoreMorale(homeCode, awayCode),
       fatigue:    scoreFatigue(homeCode, awayCode),
       recentForm: scoreRecentForm(homeCode, awayCode),
+      politics:   scorePolitics(homeCode, awayCode),
+      underdog:   scoreUnderdog(homeCode, awayCode),
     };
 
     // 2. 加权合成总分(-1 到 +1, 正=主队有利)
@@ -771,6 +910,23 @@ const Predictor = (() => {
     awayXG *= (1 - venueScore * 0.12);
     if (Math.abs(venueScore) > 0.2 && factors.venue?.detail) {
       narrative.push(`🏟️ ${factors.venue.detail}`);
+    }
+
+    // 4i. 场外因素/政治情绪
+    const politicsScore = factors.politics?.score || 0;
+    homeXG *= (1 + politicsScore * 0.15);
+    awayXG *= (1 - politicsScore * 0.15);
+    if (Math.abs(politicsScore) > 0.05 && factors.politics?.detail) {
+      narrative.push(`⚖️ ${factors.politics.detail}`);
+    }
+
+    // 4j. 强弱博弈：弱队死命防守/摆大巴会显著压低强队 xG；
+    //     弱队有爆冷潜质时可能偷分
+    const underdogScore = factors.underdog?.score || 0;
+    homeXG *= (1 + underdogScore * 0.35);
+    awayXG *= (1 - underdogScore * 0.20);
+    if (Math.abs(underdogScore) > 0.08 && factors.underdog?.detail) {
+      narrative.push(`🛡️ ${factors.underdog.detail}`);
     }
 
     // 5. 上下限保护
