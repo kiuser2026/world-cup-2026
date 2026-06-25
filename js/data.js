@@ -1,4 +1,4 @@
-// 最后更新: 2026/6/25 08:04:17
+// 最后更新: 2026/6/25 08:09:46
 // 数据来源: football-data.org (FIFA World Cup)
 // ============================================================
 // 2026 FIFA World Cup — 赛程 & 球队数据 (来自 openfootball)
@@ -135,8 +135,8 @@ const MATCHES = [
   { id:14, stage:'group', group:'C', matchday:1, date:'2026-06-14', time:'21:00', venue:'Boston (Foxborough)', home:'HAI', away:'SCO', homeScore:0, awayScore:1 },
   { id:15, stage:'group', group:'C', matchday:2, date:'2026-06-19', time:'18:00', venue:'Boston (Foxborough)', home:'SCO', away:'MAR', homeScore:0, awayScore:1 },
   { id:16, stage:'group', group:'C', matchday:2, date:'2026-06-20', time:'20:30', venue:'Philadelphia', home:'BRA', away:'HAI', homeScore:3, awayScore:0 },
-  { id:17, stage:'group', group:'C', matchday:3, date:'2026-06-24', time:'18:00', venue:'Miami (Miami Gardens)', home:'SCO', away:'BRA', homeScore:null, awayScore:null },
-  { id:18, stage:'group', group:'C', matchday:3, date:'2026-06-24', time:'18:00', venue:'Atlanta', home:'MAR', away:'HAI', homeScore:null, awayScore:null },
+  { id:17, stage:'group', group:'C', matchday:3, date:'2026-06-24', time:'18:00', venue:'Miami (Miami Gardens)', home:'SCO', away:'BRA', homeScore:0, awayScore:3 },
+  { id:18, stage:'group', group:'C', matchday:3, date:'2026-06-24', time:'18:00', venue:'Atlanta', home:'MAR', away:'HAI', homeScore:4, awayScore:2 },
 
   // ── D 组 ──
   { id:19, stage:'group', group:'D', matchday:1, date:'2026-06-13', time:'18:00', venue:'Los Angeles (Inglewood)', home:'USA', away:'PAR', homeScore:4, awayScore:1 },
