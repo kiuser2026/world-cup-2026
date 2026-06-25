@@ -1,4 +1,4 @@
-// 最后更新: 2026/6/25 11:25:43
+// 最后更新: 2026/6/25 14:41:26
 // 数据来源: football-data.org (FIFA World Cup)
 // ============================================================
 // 2026 FIFA World Cup — 赛程 & 球队数据 (来自 openfootball)
@@ -123,7 +123,7 @@ const MATCHES = [
   { id:6,  stage:'group', group:'A', matchday:3, date:'2026-06-25', time:'19:00', venue:'Monterrey (Guadalupe)', home:'RSA', away:'KOR', homeScore:1, awayScore:0 },
 
   // ── B 组 ──
-  { id:7,  stage:'group', group:'B', matchday:1, date:'2026-06-12', time:'15:00', venue:'Toronto', home:'CAN', away:'BIH', homeScore:1, awayScore:1 },
+  { id:7,  stage:'group', group:'B', matchday:1, date:'2026-06-12', time:'15:00', venue:'Toronto', home:'CAN', away:'BIH', homeScore:null, awayScore:null },
   { id:8,  stage:'group', group:'B', matchday:1, date:'2026-06-13', time:'12:00', venue:'San Francisco Bay Area (Santa Clara)', home:'QAT', away:'SUI', homeScore:1, awayScore:1 },
   { id:9,  stage:'group', group:'B', matchday:2, date:'2026-06-18', time:'12:00', venue:'Los Angeles (Inglewood)', home:'SUI', away:'BIH', homeScore:4, awayScore:1 },
   { id:10, stage:'group', group:'B', matchday:2, date:'2026-06-18', time:'15:00', venue:'Vancouver', home:'CAN', away:'QAT', homeScore:6, awayScore:0 },
