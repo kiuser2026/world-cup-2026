@@ -1,4 +1,4 @@
-// 最后更新: 2026/6/25 08:09:46
+// 最后更新: 2026/6/25 11:25:43
 // 数据来源: football-data.org (FIFA World Cup)
 // ============================================================
 // 2026 FIFA World Cup — 赛程 & 球队数据 (来自 openfootball)
@@ -119,8 +119,8 @@ const MATCHES = [
   { id:2,  stage:'group', group:'A', matchday:1, date:'2026-06-12', time:'20:00', venue:'Guadalajara (Zapopan)', home:'KOR', away:'CZE', homeScore:2, awayScore:1 },
   { id:3,  stage:'group', group:'A', matchday:2, date:'2026-06-18', time:'12:00', venue:'Atlanta', home:'CZE', away:'RSA', homeScore:1, awayScore:1 },
   { id:4,  stage:'group', group:'A', matchday:2, date:'2026-06-19', time:'19:00', venue:'Guadalajara (Zapopan)', home:'MEX', away:'KOR', homeScore:1, awayScore:0 },
-  { id:5,  stage:'group', group:'A', matchday:3, date:'2026-06-24', time:'19:00', venue:'Mexico City', home:'CZE', away:'MEX', homeScore:null, awayScore:null },
-  { id:6,  stage:'group', group:'A', matchday:3, date:'2026-06-24', time:'19:00', venue:'Monterrey (Guadalupe)', home:'RSA', away:'KOR', homeScore:null, awayScore:null },
+  { id:5,  stage:'group', group:'A', matchday:3, date:'2026-06-25', time:'19:00', venue:'Mexico City', home:'CZE', away:'MEX', homeScore:0, awayScore:3 },
+  { id:6,  stage:'group', group:'A', matchday:3, date:'2026-06-25', time:'19:00', venue:'Monterrey (Guadalupe)', home:'RSA', away:'KOR', homeScore:1, awayScore:0 },
 
   // ── B 组 ──
   { id:7,  stage:'group', group:'B', matchday:1, date:'2026-06-12', time:'15:00', venue:'Toronto', home:'CAN', away:'BIH', homeScore:1, awayScore:1 },
