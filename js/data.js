@@ -1,4 +1,4 @@
-// 最后更新: 2026/6/26 10:37:08
+// 最后更新: 2026/6/26 12:22:44
 // 数据来源: football-data.org (FIFA World Cup)
 // ============================================================
 // 2026 FIFA World Cup — 赛程 & 球队数据 (来自 openfootball)
@@ -143,8 +143,8 @@ const MATCHES = [
   { id:20, stage:'group', group:'D', matchday:1, date:'2026-06-14', time:'21:00', venue:'Vancouver', home:'AUS', away:'TUR', homeScore:2, awayScore:0 },
   { id:21, stage:'group', group:'D', matchday:2, date:'2026-06-19', time:'12:00', venue:'Seattle', home:'USA', away:'AUS', homeScore:2, awayScore:0 },
   { id:22, stage:'group', group:'D', matchday:2, date:'2026-06-20', time:'20:00', venue:'San Francisco Bay Area (Santa Clara)', home:'TUR', away:'PAR', homeScore:0, awayScore:1 },
-  { id:23, stage:'group', group:'D', matchday:3, date:'2026-06-25', time:'19:00', venue:'Los Angeles (Inglewood)', home:'TUR', away:'USA', homeScore:null, awayScore:null },
-  { id:24, stage:'group', group:'D', matchday:3, date:'2026-06-25', time:'19:00', venue:'San Francisco Bay Area (Santa Clara)', home:'PAR', away:'AUS', homeScore:null, awayScore:null },
+  { id:23, stage:'group', group:'D', matchday:3, date:'2026-06-26', time:'19:00', venue:'Los Angeles (Inglewood)', home:'TUR', away:'USA', homeScore:3, awayScore:2 },
+  { id:24, stage:'group', group:'D', matchday:3, date:'2026-06-26', time:'19:00', venue:'San Francisco Bay Area (Santa Clara)', home:'PAR', away:'AUS', homeScore:0, awayScore:0 },
 
   // ── E 组 ──
   { id:25, stage:'group', group:'E', matchday:1, date:'2026-06-14', time:'12:00', venue:'Houston', home:'GER', away:'CUW', homeScore:7, awayScore:1 },
