@@ -1,4 +1,4 @@
-// 最后更新: 2026/6/26 08:55:59
+// 最后更新: 2026/6/26 10:37:08
 // 数据来源: football-data.org (FIFA World Cup)
 // ============================================================
 // 2026 FIFA World Cup — 赛程 & 球队数据 (来自 openfootball)
@@ -159,8 +159,8 @@ const MATCHES = [
   { id:32, stage:'group', group:'F', matchday:1, date:'2026-06-15', time:'20:00', venue:'Monterrey (Guadalupe)', home:'SWE', away:'TUN', homeScore:5, awayScore:1 },
   { id:33, stage:'group', group:'F', matchday:2, date:'2026-06-20', time:'12:00', venue:'Houston', home:'NED', away:'SWE', homeScore:5, awayScore:1 },
   { id:34, stage:'group', group:'F', matchday:2, date:'2026-06-21', time:'22:00', venue:'Monterrey (Guadalupe)', home:'TUN', away:'JPN', homeScore:0, awayScore:4 },
-  { id:35, stage:'group', group:'F', matchday:3, date:'2026-06-25', time:'18:00', venue:'Dallas (Arlington)', home:'JPN', away:'SWE', homeScore:null, awayScore:null },
-  { id:36, stage:'group', group:'F', matchday:3, date:'2026-06-25', time:'18:00', venue:'Kansas City', home:'TUN', away:'NED', homeScore:null, awayScore:null },
+  { id:35, stage:'group', group:'F', matchday:3, date:'2026-06-25', time:'18:00', venue:'Dallas (Arlington)', home:'JPN', away:'SWE', homeScore:1, awayScore:1 },
+  { id:36, stage:'group', group:'F', matchday:3, date:'2026-06-25', time:'18:00', venue:'Kansas City', home:'TUN', away:'NED', homeScore:1, awayScore:3 },
 
   // ── G 组 ──
   { id:37, stage:'group', group:'G', matchday:1, date:'2026-06-15', time:'12:00', venue:'Seattle', home:'BEL', away:'EGY', homeScore:1, awayScore:1 },
