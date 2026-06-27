@@ -1,4 +1,4 @@
-// 最后更新: 2026/6/26 12:22:44
+// 最后更新: 2026/6/27 08:43:00
 // 数据来源: football-data.org (FIFA World Cup)
 // ============================================================
 // 2026 FIFA World Cup — 赛程 & 球队数据 (来自 openfootball)
@@ -183,8 +183,8 @@ const MATCHES = [
   { id:50, stage:'group', group:'I', matchday:1, date:'2026-06-16', time:'18:00', venue:'Boston (Foxborough)', home:'IRQ', away:'NOR', homeScore:1, awayScore:4 },
   { id:51, stage:'group', group:'I', matchday:2, date:'2026-06-22', time:'17:00', venue:'Philadelphia', home:'FRA', away:'IRQ', homeScore:3, awayScore:0 },
   { id:52, stage:'group', group:'I', matchday:2, date:'2026-06-23', time:'20:00', venue:'New York/New Jersey (East Rutherford)', home:'NOR', away:'SEN', homeScore:3, awayScore:2 },
-  { id:53, stage:'group', group:'I', matchday:3, date:'2026-06-26', time:'15:00', venue:'Boston (Foxborough)', home:'NOR', away:'FRA', homeScore:null, awayScore:null },
-  { id:54, stage:'group', group:'I', matchday:3, date:'2026-06-26', time:'15:00', venue:'Toronto', home:'SEN', away:'IRQ', homeScore:null, awayScore:null },
+  { id:53, stage:'group', group:'I', matchday:3, date:'2026-06-26', time:'15:00', venue:'Boston (Foxborough)', home:'NOR', away:'FRA', homeScore:1, awayScore:4 },
+  { id:54, stage:'group', group:'I', matchday:3, date:'2026-06-26', time:'15:00', venue:'Toronto', home:'SEN', away:'IRQ', homeScore:5, awayScore:0 },
 
   // ── J 组 ──
   { id:55, stage:'group', group:'J', matchday:1, date:'2026-06-17', time:'20:00', venue:'Kansas City', home:'ARG', away:'ALG', homeScore:3, awayScore:0 },
