@@ -1,4 +1,4 @@
-// 最后更新: 2026/6/27 16:54:49
+// 最后更新: 2026/6/28 08:32:03
 // 数据来源: football-data.org (FIFA World Cup)
 // ============================================================
 // 2026 FIFA World Cup — 赛程 & 球队数据 (来自 openfootball)
@@ -207,8 +207,8 @@ const MATCHES = [
   { id:68, stage:'group', group:'L', matchday:1, date:'2026-06-17', time:'19:00', venue:'Toronto', home:'GHA', away:'PAN', homeScore:1, awayScore:0 },
   { id:69, stage:'group', group:'L', matchday:2, date:'2026-06-23', time:'16:00', venue:'Boston (Foxborough)', home:'ENG', away:'GHA', homeScore:0, awayScore:0 },
   { id:70, stage:'group', group:'L', matchday:2, date:'2026-06-23', time:'19:00', venue:'Toronto', home:'PAN', away:'CRO', homeScore:0, awayScore:1 },
-  { id:71, stage:'group', group:'L', matchday:3, date:'2026-06-27', time:'17:00', venue:'New York/New Jersey (East Rutherford)', home:'PAN', away:'ENG', homeScore:null, awayScore:null },
-  { id:72, stage:'group', group:'L', matchday:3, date:'2026-06-27', time:'17:00', venue:'Philadelphia', home:'CRO', away:'GHA', homeScore:null, awayScore:null },
+  { id:71, stage:'group', group:'L', matchday:3, date:'2026-06-27', time:'17:00', venue:'New York/New Jersey (East Rutherford)', home:'PAN', away:'ENG', homeScore:0, awayScore:2 },
+  { id:72, stage:'group', group:'L', matchday:3, date:'2026-06-27', time:'17:00', venue:'Philadelphia', home:'CRO', away:'GHA', homeScore:2, awayScore:1 },
 
   // ── 32 强 ──
   { id:73, stage:'r32', date:'2026-06-28', time:'12:00', venue:'Los Angeles (Inglewood)', home:'2A', away:'2B', homeScore:null, awayScore:null },
